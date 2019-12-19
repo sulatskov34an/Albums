@@ -6,6 +6,8 @@ import ru.glabrion.common.mainModule
 
 open class AppApplication() : Application() {
 
+
+
     override fun onCreate() {
         super.onCreate()
         startKoin {
