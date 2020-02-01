@@ -3,13 +3,14 @@ package ru.sulatskov.model.network
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface Api {
     @GET("albums")
     fun getAlbums(): Deferred<List<Album>>
 
-    @GET("photos/{albumId}")
-    fun getPhotosOfAlbum(
-        @Path("albumId") albumId: Int
+    @GET("photos")
+    fun getPhotosByAlbumId(
+        @Query("albumId") albumId: Int
     ): Deferred<List<Photo>>
 }

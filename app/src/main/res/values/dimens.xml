@@ -2,4 +2,5 @@
 <resources>
     <dimen name="view_text_size">10sp</dimen>
     <dimen name="margin_top">20dp</dimen>
+    <dimen name="padding_item">8dp</dimen>
 </resources>

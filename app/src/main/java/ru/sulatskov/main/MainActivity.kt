@@ -1,6 +1,7 @@
 package ru.sulatskov.main
 
 import android.os.Bundle
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseActivity
@@ -28,6 +29,10 @@ class MainActivity : BaseActivity(), ProgressManager {
 
     override fun hideProgress() {
         main_progress.gone()
+    }
+
+    fun openPhotosScreen() {
+        Toast.makeText(this, "click", Toast.LENGTH_SHORT).show()
     }
 
 }

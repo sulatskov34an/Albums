@@ -17,4 +17,6 @@ class MainApiService {
 
     fun getAlbums(): Deferred<List<Album>> = api.getAlbums()
 
+    fun getPhotosByAlbumId(albumId: Int): Deferred<List<Photo>> = api.getPhotosByAlbumId(albumId)
+
 }
