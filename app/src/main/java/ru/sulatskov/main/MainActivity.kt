@@ -9,6 +9,7 @@ import ru.sulatskov.common.ProgressManager
 import ru.sulatskov.common.gone
 import ru.sulatskov.common.visible
 import ru.sulatskov.main.screen.general.GeneralFragment
+import ru.sulatskov.main.screen.ptotos.PhotosFragment
 
 class MainActivity : BaseActivity(), ProgressManager {
 
@@ -32,7 +33,12 @@ class MainActivity : BaseActivity(), ProgressManager {
     }
 
     fun openPhotosScreen() {
-        Toast.makeText(this, "click", Toast.LENGTH_SHORT).show()
+        val photosFragment = PhotosFragment()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_fragment_container,
+                photosFragment)
+            .addToBackStack(photosFragment.tag)
+            .commit()
     }
 
 }

@@ -13,6 +13,7 @@ import ru.sulatskov.common.request
 import ru.sulatskov.main.MainActivity
 import ru.sulatskov.model.network.Album
 import kotlinx.android.synthetic.main.fragment_general.view.*
+import ru.sulatskov.common.SimpleDividerItemDecoration
 
 class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
 
