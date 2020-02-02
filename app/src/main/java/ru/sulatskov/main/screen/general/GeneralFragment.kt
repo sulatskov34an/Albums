@@ -7,15 +7,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.android.ext.android.inject
 import ru.sulatskov.R
-import ru.sulatskov.common.toast
 import ru.sulatskov.base.view.BaseFragment
-import ru.sulatskov.common.request
 import ru.sulatskov.main.MainActivity
 import ru.sulatskov.model.network.Album
 import kotlinx.android.synthetic.main.fragment_general.view.*
-import ru.sulatskov.common.SimpleDividerItemDecoration
+import ru.sulatskov.common.*
 
-class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
+class GeneralFragment : BaseFragment(), GeneralContractInterface.View{
 
     private val generalPresenter: GeneralContractInterface.Presenter by inject()
 
@@ -47,5 +45,4 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
     override fun showContent() {
 
     }
-
 }

@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding_item">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_item"
         tools:text = "title"
+        android:textSize="24sp"
         android:layout_gravity="left"
         android:id="@+id/title"/>
 

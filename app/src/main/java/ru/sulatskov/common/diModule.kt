@@ -2,7 +2,6 @@ package ru.sulatskov.common
 
 import android.content.Context
 import org.koin.dsl.module
-import ru.sulatskov.main.screen.general.GeneralContractInterface
 import ru.sulatskov.main.screen.general.GeneralPresenter
 import ru.sulatskov.main.screen.ptotos.PhotosContractInterface
 import ru.sulatskov.main.screen.ptotos.PhotosPresenter
