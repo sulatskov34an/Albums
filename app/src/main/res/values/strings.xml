@@ -7,4 +7,5 @@
     <string name="default_label">По умолчанию</string>
     <string name="name_asc_label">По возрастанию имени</string>
     <string name="name_desc_label">По убыванию имени</string>
+    <string name="no_internet_label">Отсутсвует интернет соединение</string>
 </resources>
