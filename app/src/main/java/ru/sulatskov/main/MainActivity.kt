@@ -5,11 +5,13 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseActivity
+import ru.sulatskov.common.AppConst
 import ru.sulatskov.common.ProgressManager
 import ru.sulatskov.common.gone
 import ru.sulatskov.common.visible
 import ru.sulatskov.main.screen.filters.FiltersFragment
 import ru.sulatskov.main.screen.general.GeneralFragment
+import ru.sulatskov.main.screen.photo.PhotoFragment
 import ru.sulatskov.main.screen.ptotos.PhotosFragment
 
 class MainActivity : BaseActivity(), ProgressManager {
@@ -46,6 +48,21 @@ class MainActivity : BaseActivity(), ProgressManager {
                 photosFragment
             )
             .addToBackStack(photosFragment.tag)
+            .commit()
+    }
+
+    fun openPhotoScreen(url: String?) {
+        val photoFragment = PhotoFragment()
+        val bundle = Bundle()
+        bundle.putString(AppConst.ID_URL_KEY, url)
+        photoFragment.arguments = bundle
+
+        supportFragmentManager.beginTransaction()
+            .replace(
+                R.id.main_fragment_container,
+                photoFragment
+            )
+            .addToBackStack(photoFragment.tag)
             .commit()
     }
 

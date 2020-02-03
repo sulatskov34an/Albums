@@ -6,6 +6,8 @@ import ru.sulatskov.main.screen.filters.FiltersContractInterface
 import ru.sulatskov.main.screen.filters.FiltersPresenter
 import ru.sulatskov.main.screen.general.GeneralContractInterface
 import ru.sulatskov.main.screen.general.GeneralPresenter
+import ru.sulatskov.main.screen.photo.PhotoContractInterface
+import ru.sulatskov.main.screen.photo.PhotoPresenter
 import ru.sulatskov.main.screen.ptotos.PhotosContractInterface
 import ru.sulatskov.main.screen.ptotos.PhotosPresenter
 import ru.sulatskov.model.network.MainApiService
@@ -16,6 +18,8 @@ fun mainModule(context: Context) = module {
     factory <GeneralContractInterface.Presenter> { GeneralPresenter() }
 
     factory <PhotosContractInterface.Presenter> { PhotosPresenter() }
+
+    factory <PhotoContractInterface.Presenter> { PhotoPresenter() }
 
     factory <FiltersContractInterface.Presenter> { FiltersPresenter() }
 

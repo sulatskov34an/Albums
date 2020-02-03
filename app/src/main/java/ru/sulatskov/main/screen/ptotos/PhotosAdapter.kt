@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_photo.view.*
 import ru.sulatskov.R
 import ru.sulatskov.common.getProgressBar
@@ -44,8 +44,9 @@ class PhotosAdapter(private val listener: (Photo) -> Unit) :
         fun bind(photo: Photo, listener: (Photo) -> Unit) {
             itemView.photo_iv?.apply {
                 val path = photo.url+".jpg"
-                Picasso.with(itemView.context)
+                Glide.with(itemView.context)
                     .load(path)
+                    .error(R.drawable.error)
                     .placeholder(getProgressBar(context))
                     .into(itemView.photo_iv)
             }

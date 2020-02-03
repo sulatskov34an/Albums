@@ -11,12 +11,13 @@ import ru.sulatskov.base.view.BaseFragment
 import ru.sulatskov.common.request
 import kotlinx.android.synthetic.main.fragment_photos.view.*
 import ru.sulatskov.common.SimpleDividerItemDecoration
+import ru.sulatskov.main.MainActivity
 
 class PhotosFragment : BaseFragment(), PhotosContractInterface.View {
 
     private val photosPresenter: PhotosContractInterface.Presenter by inject()
 
-    var photosAdapter = PhotosAdapter{}
+    var photosAdapter = PhotosAdapter{ photo ->  (activity as? MainActivity)?.openPhotoScreen(photo.url)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
