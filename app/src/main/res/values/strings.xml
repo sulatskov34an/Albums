@@ -7,6 +7,9 @@
     <string name="default_label">По умолчанию</string>
     <string name="name_asc_label">По возрастанию имени</string>
     <string name="name_desc_label">По убыванию имени</string>
-    <string name="no_internet_label">Отсутсвует интернет соединение</string>
+    <string name="no_internet_label">Отсутсвует интернет соединение. Данные загружены из БД</string>
     <string name="save_label">Сохранить фото в галерею</string>
+    <string name="error_load_data_lable">Ошибка загрузки данных</string>
+    <string name="save_success_text">Сохранение фотографии прошло успешно</string>
+    <string name="save_fail_text">Фото не удалось сохранить</string>
 </resources>

@@ -42,9 +42,9 @@ class PhotoFragment : BaseFragment(), PhotoContractInterface.View {
         view?.save_btn?.setOnClickListener {
             var result = downloadFile("$url.jpg")
             if (result != -1L) {
-                toast("Сохранение фотографии прошло успешно")
+                toast(getString(R.string.save_success_text))
             } else {
-                toast("Фото не удалось сохранить")
+                toast(getString(R.string.save_fail_text))
             }
         }
 

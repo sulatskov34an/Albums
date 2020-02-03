@@ -8,10 +8,13 @@ interface GeneralContractInterface {
 
     interface View : BaseViewInterface {
         fun showError()
-        fun showContent(album: List<Album>)
+        fun showContent(albums: List<Album>)
     }
 
     interface Presenter : BasePresenterInterface<View> {
-       suspend fun getAlbums(): MutableList<Album>
+        suspend fun getAlbumsRemote(): MutableList<Album>
+        suspend fun getAlbumsDB(): MutableList<Album>
+        fun insertAlbums(albums: MutableList<Album>)
+
     }
 }

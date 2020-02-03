@@ -10,6 +10,7 @@ import ru.sulatskov.main.screen.photo.PhotoContractInterface
 import ru.sulatskov.main.screen.photo.PhotoPresenter
 import ru.sulatskov.main.screen.ptotos.PhotosContractInterface
 import ru.sulatskov.main.screen.ptotos.PhotosPresenter
+import ru.sulatskov.model.db.AlbumsDataBaseService
 import ru.sulatskov.model.network.MainApiService
 import ru.sulatskov.model.prefs.PrefsService
 
@@ -24,5 +25,8 @@ fun mainModule(context: Context) = module {
     factory <FiltersContractInterface.Presenter> { FiltersPresenter() }
 
     single { PrefsService(context) }
+
     single { MainApiService() }
+
+    single { AlbumsDataBaseService(context) }
 }

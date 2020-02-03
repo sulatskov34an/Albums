@@ -43,7 +43,7 @@ class PhotosAdapter(private val listener: (Photo) -> Unit) :
 
         fun bind(photo: Photo, listener: (Photo) -> Unit) {
             itemView.photo_iv?.apply {
-                val path = photo.url+".jpg"
+                val path = photo.url
                 Picasso.with(itemView.context)
                     .load(path)
                     .error(R.drawable.error)

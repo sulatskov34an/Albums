@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="30dp"
         android:paddingEnd="30dp"
+        android:layout_margin="@dimen/margin_top"
         android:paddingTop="5dp"
         android:visibility="gone"
         android:paddingBottom="5dp"

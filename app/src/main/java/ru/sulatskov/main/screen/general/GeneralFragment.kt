@@ -42,9 +42,20 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
 
     override fun onResume() {
         super.onResume()
+        val hasConnection = hasConnection(view?.context)
         launch {
             CoroutineScope(Dispatchers.Default).async {
-                albums = generalPresenter.getAlbums()
+                if (hasConnection){
+                    albums = generalPresenter.getAlbumsRemote()
+                    if(prefsService.hasDB == false){
+                        generalPresenter.insertAlbums(albums)
+                        prefsService.hasDB = true
+                    }
+                }else{
+                    if(prefsService.hasDB){
+                        albums = generalPresenter.getAlbumsDB()
+                    }
+                }
                 CoroutineScope(Dispatchers.Main).async {
                     initView()
                     if (albums.isEmpty()) {
@@ -65,7 +76,7 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
     }
 
     override fun showError() {
-        toast("Ошибка загрузки данных")
+        toast(getString(R.string.error_load_data_lable))
     }
 
     override fun showContent(albums: List<Album>) {

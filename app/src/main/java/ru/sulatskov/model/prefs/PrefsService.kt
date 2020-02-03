@@ -7,14 +7,14 @@ class PrefsService(context: Context) {
     private val prefs = context.getSharedPreferences("carDB", Context.MODE_PRIVATE)
 
     companion object {
-        const val someKey = "someKey"
+        const val hasDBKey = "hasDBKey"
     }
 
-    var someValue: Boolean
-        get() = prefs.getBoolean(someKey, false)
+    var hasDB: Boolean
+        get() = prefs.getBoolean(hasDBKey, false)
         set(value) {
             prefs.edit {
-                putBoolean(someKey, value)
+                putBoolean(hasDBKey, value)
             }
         }
 }

@@ -59,8 +59,6 @@ class PhotosFragment : BaseFragment(), PhotosContractInterface.View {
                 }.await()
             }.await()
         }
-
-
     }
 
     fun initView() {
@@ -69,7 +67,7 @@ class PhotosFragment : BaseFragment(), PhotosContractInterface.View {
     }
 
     override fun showError() {
-        toast("Ошибка загрузки данных")
+        toast(getString(R.string.error_load_data_lable))
     }
 
     override fun showContent(photos: List<Photo>) {
