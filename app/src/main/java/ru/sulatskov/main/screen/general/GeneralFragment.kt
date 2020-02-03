@@ -11,13 +11,20 @@ import ru.sulatskov.base.view.BaseFragment
 import ru.sulatskov.main.MainActivity
 import ru.sulatskov.model.network.Album
 import kotlinx.android.synthetic.main.fragment_general.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import ru.sulatskov.common.*
 
-class GeneralFragment : BaseFragment(), GeneralContractInterface.View{
+class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
 
     private val generalPresenter: GeneralContractInterface.Presenter by inject()
 
-    var albumsAdapter = AlbumsAdapter{album: Album -> (activity as? MainActivity)?.openPhotosScreen()}
+    private var albumsAdapter =
+        AlbumsAdapter { album: Album -> (activity as? MainActivity)?.openPhotosScreen(albumId = album.id) }
+
+    private var albums = mutableListOf<Album>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,20 +42,33 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View{
 
     override fun onResume() {
         super.onResume()
+        launch {
+            CoroutineScope(Dispatchers.Default).async {
+                albums = generalPresenter.getAlbums()
+                CoroutineScope(Dispatchers.Main).async {
+                    initView()
+                    if (albums.isEmpty()) {
+                        showError()
+                    } else {
+                        showContent(albums)
+                    }
+                }.await()
+            }.await()
+        }
+    }
+
+    fun initView() {
         view?.albums_rv?.layoutManager = LinearLayoutManager(view?.context)
         view?.albums_rv?.adapter = albumsAdapter
         view?.albums_rv?.addItemDecoration(SimpleDividerItemDecoration(context))
         view?.filter_iv?.setOnClickListener { (activity as? MainActivity)?.openFiltersScreen() }
-        request(mainApiService.getAlbums(), true){
-            albumsAdapter.setData(it)
-        }
-
     }
+
     override fun showError() {
         toast("Ошибка загрузки данных")
     }
 
-    override fun showContent() {
-
+    override fun showContent(albums: List<Album>) {
+        albumsAdapter.setData(albums)
     }
 }

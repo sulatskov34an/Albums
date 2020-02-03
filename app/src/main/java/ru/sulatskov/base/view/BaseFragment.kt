@@ -12,7 +12,6 @@ import kotlin.coroutines.CoroutineContext
 open class BaseFragment : Fragment(), CoroutineScope {
 
     val prefsService: PrefsService by inject()
-    val mainApiService: MainApiService by inject()
 
     private val job = Job()
     override val coroutineContext: CoroutineContext

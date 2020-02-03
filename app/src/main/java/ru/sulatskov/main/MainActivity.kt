@@ -5,10 +5,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseActivity
-import ru.sulatskov.common.AppConst
-import ru.sulatskov.common.ProgressManager
-import ru.sulatskov.common.gone
-import ru.sulatskov.common.visible
+import ru.sulatskov.common.*
 import ru.sulatskov.main.screen.filters.FiltersFragment
 import ru.sulatskov.main.screen.general.GeneralFragment
 import ru.sulatskov.main.screen.photo.PhotoFragment
@@ -21,6 +18,11 @@ class MainActivity : BaseActivity(), ProgressManager {
 
     override fun init(state: Bundle?) {
         openGeneralScreen()
+        if (hasConnection(this)) {
+            no_internet_ll.gone()
+        } else {
+            no_internet_ll.visible()
+        }
     }
 
     override fun showProgress() {
@@ -40,8 +42,12 @@ class MainActivity : BaseActivity(), ProgressManager {
             .commit()
     }
 
-    fun openPhotosScreen() {
+    fun openPhotosScreen(albumId: Int?) {
         val photosFragment = PhotosFragment()
+        val bundle = Bundle()
+        bundle.putInt(AppConst.ID_ALBUM_KEY, albumId ?: 0)
+        photosFragment.arguments = bundle
+
         supportFragmentManager.beginTransaction()
             .replace(
                 R.id.main_fragment_container,
