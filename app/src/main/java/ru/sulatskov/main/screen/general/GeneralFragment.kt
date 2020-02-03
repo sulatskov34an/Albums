@@ -19,6 +19,11 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View{
 
     var albumsAdapter = AlbumsAdapter{album: Album -> (activity as? MainActivity)?.openPhotosScreen()}
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setRetainInstance(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

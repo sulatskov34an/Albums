@@ -14,6 +14,11 @@ class FiltersFragment : BaseFragment(), FiltersContractInterface.View{
 
     private val filtersPresenter: FiltersContractInterface.Presenter by inject()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setRetainInstance(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

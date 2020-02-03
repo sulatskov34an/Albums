@@ -18,6 +18,11 @@ class PhotosFragment : BaseFragment(), PhotosContractInterface.View {
 
     var photosAdapter = PhotosAdapter{}
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setRetainInstance(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
