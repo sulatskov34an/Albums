@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:padding="@dimen/padding_item"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:text="@string/save_label" />
+
     <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/photo_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/padding_item"
+        android:layout_below="@id/save_btn"
         android:layout_centerHorizontal="true"
-        android:id="@+id/photo_iv"/>
+        android:layout_marginTop="@dimen/margin_top"
+        android:padding="@dimen/padding_item" />
 
 </RelativeLayout>
