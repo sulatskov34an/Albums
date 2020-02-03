@@ -8,20 +8,17 @@ import ru.sulatskov.base.view.BaseActivity
 import ru.sulatskov.common.ProgressManager
 import ru.sulatskov.common.gone
 import ru.sulatskov.common.visible
+import ru.sulatskov.main.screen.filters.FiltersFragment
 import ru.sulatskov.main.screen.general.GeneralFragment
 import ru.sulatskov.main.screen.ptotos.PhotosFragment
 
 class MainActivity : BaseActivity(), ProgressManager {
 
-    private val generalFragment = GeneralFragment()
     override val layoutResId: Int
         get() = R.layout.activity_main
 
     override fun init(state: Bundle?) {
-        supportFragmentManager.beginTransaction().add(
-            R.id.main_fragment_container,
-            generalFragment
-        ).commit()
+        openGeneralScreen()
     }
 
     override fun showProgress() {
@@ -32,12 +29,34 @@ class MainActivity : BaseActivity(), ProgressManager {
         main_progress.gone()
     }
 
+    fun openGeneralScreen() {
+        val generalFragment = GeneralFragment()
+        supportFragmentManager.beginTransaction().replace(
+            R.id.main_fragment_container,
+            generalFragment
+        ).addToBackStack(generalFragment.tag)
+            .commit()
+    }
+
     fun openPhotosScreen() {
         val photosFragment = PhotosFragment()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_fragment_container,
-                photosFragment)
+            .replace(
+                R.id.main_fragment_container,
+                photosFragment
+            )
             .addToBackStack(photosFragment.tag)
+            .commit()
+    }
+
+    fun openFiltersScreen() {
+        val filtersFragment = FiltersFragment()
+        supportFragmentManager.beginTransaction()
+            .replace(
+                R.id.main_fragment_container,
+                filtersFragment
+            )
+            .addToBackStack(filtersFragment.tag)
             .commit()
     }
 

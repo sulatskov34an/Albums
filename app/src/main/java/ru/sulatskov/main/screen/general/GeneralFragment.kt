@@ -33,6 +33,7 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View{
         view?.albums_rv?.layoutManager = LinearLayoutManager(view?.context)
         view?.albums_rv?.adapter = albumsAdapter
         view?.albums_rv?.addItemDecoration(SimpleDividerItemDecoration(context))
+        view?.filter_iv?.setOnClickListener { (activity as? MainActivity)?.openFiltersScreen() }
         request(mainApiService.getAlbums(), true){
             albumsAdapter.setData(it)
         }

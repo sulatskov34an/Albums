@@ -1,4 +1,4 @@
-package ru.sulatskov.main.screen.general
+package ru.sulatskov.main.screen.filters
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -6,14 +6,10 @@ import kotlinx.coroutines.Job
 import ru.sulatskov.base.presenter.BasePresenter
 import kotlin.coroutines.CoroutineContext
 
-class GeneralPresenter: BasePresenter<GeneralContractInterface.View>(), GeneralContractInterface.Presenter, CoroutineScope {
+class FiltersPresenter: BasePresenter<FiltersContractInterface.View>(), FiltersContractInterface.Presenter, CoroutineScope {
 
-    override fun attach(view: GeneralContractInterface.View) {
+    override fun attach(view: FiltersContractInterface.View) {
         super.attach(view)
-    }
-
-    override fun todoSome() {
-
     }
 
     private val job = Job()

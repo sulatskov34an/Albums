@@ -1,4 +1,4 @@
-package ru.sulatskov.common
+package ru.sulatskov.main.screen.general
 
 import ru.sulatskov.base.presenter.BasePresenterInterface
 import ru.sulatskov.base.view.BaseViewInterface
