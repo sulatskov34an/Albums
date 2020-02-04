@@ -3,6 +3,7 @@ package ru.sulatskov.main
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
+import org.koin.core.inject
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseActivity
 import ru.sulatskov.common.*
@@ -15,13 +16,13 @@ import ru.sulatskov.model.prefs.PrefsService
 class MainActivity : BaseActivity(), ProgressManager {
 
     private val prefsService: PrefsService by inject()
+    val connection: ConnectionProvider by inject()
 
     override val layoutResId: Int
         get() = R.layout.activity_main
 
     override fun init(state: Bundle?) {
         openGeneralScreen()
-        prefsService.hasConnection = hasConnection(this)
     }
 
     override fun showProgress() {
@@ -87,11 +88,10 @@ class MainActivity : BaseActivity(), ProgressManager {
     }
 
     fun checkConnection(){
-        if (hasConnection(this)) {
+        if (connection.isConnected()) {
             no_internet_ll.gone()
         } else {
             no_internet_ll.visible()
         }
-        prefsService.hasConnection = hasConnection(this)
     }
 }

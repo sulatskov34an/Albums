@@ -8,7 +8,6 @@ class PrefsService(context: Context) {
 
     companion object {
         const val hasDBKey = "hasDBKey"
-        const val hasConnectionKey = "hasConnectionKey"
     }
 
     var hasDB: Boolean
@@ -16,13 +15,6 @@ class PrefsService(context: Context) {
         set(value) {
             prefs.edit {
                 putBoolean(hasDBKey, value)
-            }
-        }
-    var hasConnection: Boolean
-        get() = prefs.getBoolean(hasConnectionKey, false)
-        set(value) {
-            prefs.edit {
-                putBoolean(hasConnectionKey, value)
             }
         }
 }

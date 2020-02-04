@@ -1,11 +1,10 @@
 package ru.sulatskov.main.screen.general
 
 import kotlinx.coroutines.*
-import org.koin.android.ext.android.inject
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import ru.sulatskov.base.presenter.BasePresenter
-import ru.sulatskov.common.hasConnection
+import ru.sulatskov.common.ConnectionProvider
 import ru.sulatskov.model.db.AlbumsDataBaseService
 import ru.sulatskov.model.db.entity.AlbumEntity
 import ru.sulatskov.model.network.Album
@@ -24,13 +23,14 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
     val mainApiService: MainApiService by inject()
     val dbService: AlbumsDataBaseService by inject()
     val prefsService: PrefsService by inject()
+    val connection: ConnectionProvider by inject()
 
     override fun attach(view: GeneralContractInterface.View) {
         var albums = mutableListOf<Album>()
         launch {
             view.showProgress()
             CoroutineScope(Dispatchers.Default).async {
-                if (prefsService.hasConnection) {
+                if (connection.isConnected()) {
                     albums = getAlbumsRemote()
                     insertAlbums(albums)
                     prefsService.hasDB = true

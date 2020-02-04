@@ -16,7 +16,7 @@ import ru.sulatskov.model.prefs.PrefsService
 
 fun mainModule(context: Context) = module {
 
-    factory <GeneralContractInterface.Presenter> { GeneralPresenter() }
+    factory <GeneralContractInterface.Presenter> { GeneralPresenter( ) }
 
     factory <PhotosContractInterface.Presenter> { PhotosPresenter() }
 
@@ -29,4 +29,7 @@ fun mainModule(context: Context) = module {
     single { MainApiService() }
 
     single { AlbumsDataBaseService(context) }
+
+    single { ConnectionProvider(context) }
+
 }
