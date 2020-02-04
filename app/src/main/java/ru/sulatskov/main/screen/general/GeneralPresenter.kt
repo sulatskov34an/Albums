@@ -27,11 +27,10 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
 
     override fun attach(view: GeneralContractInterface.View) {
         var albums = mutableListOf<Album>()
-        val hasConnection = hasConnection(view.getContext())
         launch {
             view.showProgress()
             CoroutineScope(Dispatchers.Default).async {
-                if (hasConnection) {
+                if (prefsService.hasConnection) {
                     albums = getAlbumsRemote()
                     insertAlbums(albums)
                     prefsService.hasDB = true

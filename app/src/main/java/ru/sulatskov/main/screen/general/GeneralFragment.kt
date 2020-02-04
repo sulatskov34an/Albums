@@ -25,8 +25,6 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
     private var albumsAdapter =
         AlbumsAdapter { album: Album -> (activity as? MainActivity)?.openPhotosScreen(albumId = album.id) }
 
-    private var albums = mutableListOf<Album>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setRetainInstance(true)
@@ -59,10 +57,6 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
 
     override fun showContent(albums: List<Album>) {
         albumsAdapter.setData(albums)
-    }
-
-    override fun getContext(): Context? {
-        return view?.context
     }
 
     override fun showProgress() {

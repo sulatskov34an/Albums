@@ -10,7 +10,6 @@ interface GeneralContractInterface {
     interface View : BaseViewInterface {
         fun showError()
         fun showContent(albums: List<Album>)
-        fun getContext(): Context?
     }
 
     interface Presenter : BasePresenterInterface<View> {
