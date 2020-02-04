@@ -1,5 +1,6 @@
 package ru.sulatskov.main.screen.general
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,36 +37,13 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        generalPresenter.attach(this)
         return inflater.inflate(R.layout.fragment_general, container, false)
     }
 
     override fun onResume() {
+        initView()
+        generalPresenter.attach(this)
         super.onResume()
-        val hasConnection = hasConnection(view?.context)
-        launch {
-            CoroutineScope(Dispatchers.Default).async {
-                if (hasConnection){
-                    albums = generalPresenter.getAlbumsRemote()
-                    if(prefsService.hasDB == false){
-                        generalPresenter.insertAlbums(albums)
-                        prefsService.hasDB = true
-                    }
-                }else{
-                    if(prefsService.hasDB){
-                        albums = generalPresenter.getAlbumsDB()
-                    }
-                }
-                CoroutineScope(Dispatchers.Main).async {
-                    initView()
-                    if (albums.isEmpty()) {
-                        showError()
-                    } else {
-                        showContent(albums)
-                    }
-                }.await()
-            }.await()
-        }
     }
 
     fun initView() {
@@ -82,4 +60,18 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
     override fun showContent(albums: List<Album>) {
         albumsAdapter.setData(albums)
     }
+
+    override fun getContext(): Context? {
+        return view?.context
+    }
+
+    override fun showProgress() {
+        (activity as? MainActivity)?.showProgress()
+    }
+
+    override fun hideProgress() {
+        (activity as? MainActivity)?.hideProgress()
+    }
+
+
 }

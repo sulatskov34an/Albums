@@ -9,9 +9,10 @@ interface PhotosContractInterface {
     interface View : BaseViewInterface {
         fun showError()
         fun showContent(photos: List<Photo>)
+        fun getAlbumId(): Int?
     }
 
     interface Presenter : BasePresenterInterface<View> {
-       suspend fun getPhotos(albumId: Int?):MutableList<Photo>
+       suspend fun getPhotosRemote(albumId: Int?):MutableList<Photo>
     }
 }

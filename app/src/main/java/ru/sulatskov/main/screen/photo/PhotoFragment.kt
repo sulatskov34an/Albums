@@ -14,6 +14,7 @@ import ru.sulatskov.common.AppConst
 import ru.sulatskov.common.downloadFile
 import ru.sulatskov.common.getProgressBar
 import ru.sulatskov.common.toast
+import ru.sulatskov.main.MainActivity
 
 class PhotoFragment : BaseFragment(), PhotoContractInterface.View {
 
@@ -57,4 +58,14 @@ class PhotoFragment : BaseFragment(), PhotoContractInterface.View {
                 .into(photo_iv)
         }
     }
+
+    override fun showProgress() {
+        (activity as? MainActivity)?.showProgress()
+    }
+
+    override fun hideProgress() {
+        (activity as? MainActivity)?.hideProgress()
+    }
+
+
 }

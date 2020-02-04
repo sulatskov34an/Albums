@@ -5,20 +5,53 @@ import org.koin.android.ext.android.inject
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import ru.sulatskov.base.presenter.BasePresenter
+import ru.sulatskov.common.hasConnection
 import ru.sulatskov.model.db.AlbumsDataBaseService
 import ru.sulatskov.model.db.entity.AlbumEntity
 import ru.sulatskov.model.network.Album
 import ru.sulatskov.model.network.MainApiService
+import ru.sulatskov.model.prefs.PrefsService
 import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
 class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
     GeneralContractInterface.Presenter, CoroutineScope, KoinComponent {
 
+    private val job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
+
     val mainApiService: MainApiService by inject()
     val dbService: AlbumsDataBaseService by inject()
+    val prefsService: PrefsService by inject()
 
     override fun attach(view: GeneralContractInterface.View) {
+        var albums = mutableListOf<Album>()
+        val hasConnection = hasConnection(view.getContext())
+        launch {
+            view.showProgress()
+            CoroutineScope(Dispatchers.Default).async {
+                if (hasConnection){
+                    albums = getAlbumsRemote()
+                    if(prefsService.hasDB == false){
+                        insertAlbums(albums)
+                        prefsService.hasDB = true
+                    }
+                }else{
+                    if(prefsService.hasDB){
+                        albums = getAlbumsDB()
+                    }
+                }
+                CoroutineScope(Dispatchers.Main).async {
+                    view.hideProgress()
+                    if (albums.isEmpty()) {
+                        view.showError()
+                    } else {
+                        view.showContent(albums)
+                    }
+                }.await()
+            }.await()
+        }
         super.attach(view)
     }
 
@@ -66,9 +99,4 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
             })
         }
     }
-
-
-    private val job = Job()
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Default
 }

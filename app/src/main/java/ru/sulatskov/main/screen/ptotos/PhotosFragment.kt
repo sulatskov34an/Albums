@@ -27,7 +27,6 @@ class PhotosFragment : BaseFragment(), PhotosContractInterface.View {
     var photosAdapter =
         PhotosAdapter { photo -> (activity as? MainActivity)?.openPhotoScreen(photo.url) }
 
-    var photos = mutableListOf<Photo>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,26 +38,14 @@ class PhotosFragment : BaseFragment(), PhotosContractInterface.View {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        photosPresenter.attach(this)
         albumId = arguments?.getInt(AppConst.ID_ALBUM_KEY, 0)
         return inflater.inflate(R.layout.fragment_photos, container, false)
     }
 
     override fun onResume() {
         super.onResume()
-        launch {
-            CoroutineScope(Dispatchers.Default).async {
-                photos = photosPresenter.getPhotos(albumId)
-                CoroutineScope(Dispatchers.Main).async {
-                    initView()
-                    if (photos.isEmpty()) {
-                        showError()
-                    } else {
-                        showContent(photos)
-                    }
-                }.await()
-            }.await()
-        }
+        initView()
+        photosPresenter.attach(this)
     }
 
     fun initView() {
@@ -72,5 +59,15 @@ class PhotosFragment : BaseFragment(), PhotosContractInterface.View {
 
     override fun showContent(photos: List<Photo>) {
         photosAdapter.setData(photos)
+    }
+
+    override fun getAlbumId() = albumId
+
+    override fun showProgress() {
+        (activity as? MainActivity)?.showProgress()
+    }
+
+    override fun hideProgress() {
+        (activity as? MainActivity)?.hideProgress()
     }
 }

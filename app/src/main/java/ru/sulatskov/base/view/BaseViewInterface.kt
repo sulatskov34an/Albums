@@ -1,3 +1,6 @@
 package ru.sulatskov.base.view
 
-interface BaseViewInterface
+interface BaseViewInterface{
+    fun showProgress()
+    fun hideProgress()
+}

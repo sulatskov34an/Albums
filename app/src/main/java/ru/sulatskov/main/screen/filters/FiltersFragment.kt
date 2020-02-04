@@ -33,4 +33,13 @@ class FiltersFragment : BaseFragment(), FiltersContractInterface.View{
         view?.close_iv?.setOnClickListener { (activity as? MainActivity)?.openGeneralScreen() }
         view?.show_btn?.setOnClickListener { (activity as? MainActivity)?.openGeneralScreen() }
     }
+
+    override fun showProgress() {
+        (activity as? MainActivity)?.showProgress()
+    }
+
+    override fun hideProgress() {
+        (activity as? MainActivity)?.hideProgress()
+    }
+
 }

@@ -1,5 +1,6 @@
 package ru.sulatskov.main.screen.general
 
+import android.content.Context
 import ru.sulatskov.base.presenter.BasePresenterInterface
 import ru.sulatskov.base.view.BaseViewInterface
 import ru.sulatskov.model.network.Album
@@ -9,6 +10,7 @@ interface GeneralContractInterface {
     interface View : BaseViewInterface {
         fun showError()
         fun showContent(albums: List<Album>)
+        fun getContext(): Context?
     }
 
     interface Presenter : BasePresenterInterface<View> {
