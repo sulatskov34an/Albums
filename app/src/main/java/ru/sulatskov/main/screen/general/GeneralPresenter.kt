@@ -53,7 +53,7 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
         super.attach(view)
     }
 
-    override suspend fun getAlbumsRemote(): MutableList<Album> {
+    private suspend fun getAlbumsRemote(): MutableList<Album> {
         var albums = mutableListOf<Album>()
         CoroutineScope(Dispatchers.Default).async {
             try {
@@ -66,7 +66,7 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
         return albums
     }
 
-    override suspend fun getAlbumsDB(): MutableList<Album> {
+    private suspend fun getAlbumsDB(): MutableList<Album> {
         var albums = mutableListOf<Album>()
         CoroutineScope(Dispatchers.Default).async {
             try {
@@ -77,7 +77,6 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
                         userId = album.userId
                     )
                 }.toMutableList()
-
                 return@async albums
             } catch (e: Exception) {
                 return@async albums
@@ -86,15 +85,20 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
         return albums
     }
 
-    override fun insertAlbums(albums: MutableList<Album>) {
+    private fun insertAlbums(albums: MutableList<Album>) {
         CoroutineScope(Dispatchers.Default).launch {
-            dbService.insertAlbumsList(albums = albums.map { album ->
-                AlbumEntity(
-                    id = album.id,
-                    userId = album.userId,
-                    title = album.title
-                )
-            })
+            try {
+                dbService.insertAlbumsList(albums = albums.map { album ->
+                    AlbumEntity(
+                        id = album.id,
+                        userId = album.userId,
+                        title = album.title
+                    )
+                })
+
+            }catch (e: Exception){
+
+            }
         }
     }
 }

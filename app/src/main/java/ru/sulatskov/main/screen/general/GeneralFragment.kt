@@ -38,17 +38,14 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
         return inflater.inflate(R.layout.fragment_general, container, false)
     }
 
-    override fun onResume() {
-        initView()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.albums_rv?.layoutManager = LinearLayoutManager(view?.context)
+        view.albums_rv?.adapter = albumsAdapter
+        view.albums_rv?.addItemDecoration(SimpleDividerItemDecoration(context))
+        view.filter_iv?.setOnClickListener { (activity as? MainActivity)?.openFiltersScreen() }
         generalPresenter.attach(this)
-        super.onResume()
-    }
 
-    fun initView() {
-        view?.albums_rv?.layoutManager = LinearLayoutManager(view?.context)
-        view?.albums_rv?.adapter = albumsAdapter
-        view?.albums_rv?.addItemDecoration(SimpleDividerItemDecoration(context))
-        view?.filter_iv?.setOnClickListener { (activity as? MainActivity)?.openFiltersScreen() }
     }
 
     override fun showError() {

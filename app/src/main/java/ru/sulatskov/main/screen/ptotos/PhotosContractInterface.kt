@@ -13,6 +13,5 @@ interface PhotosContractInterface {
     }
 
     interface Presenter : BasePresenterInterface<View> {
-       suspend fun getPhotosRemote(albumId: Int?):MutableList<Photo>
     }
 }

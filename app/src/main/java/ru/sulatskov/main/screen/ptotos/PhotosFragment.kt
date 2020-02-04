@@ -42,15 +42,11 @@ class PhotosFragment : BaseFragment(), PhotosContractInterface.View {
         return inflater.inflate(R.layout.fragment_photos, container, false)
     }
 
-    override fun onResume() {
-        super.onResume()
-        initView()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.photos_rv?.layoutManager = GridLayoutManager(view.context, 2)
+        view.photos_rv?.adapter = photosAdapter
         photosPresenter.attach(this)
-    }
-
-    fun initView() {
-        view?.photos_rv?.layoutManager = GridLayoutManager(view?.context, 2)
-        view?.photos_rv?.adapter = photosAdapter
     }
 
     override fun showError() {

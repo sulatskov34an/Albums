@@ -36,7 +36,7 @@ class PhotosPresenter: BasePresenter<PhotosContractInterface.View>(), PhotosCont
         }
     }
 
-    override suspend fun getPhotosRemote(albumId: Int?): MutableList<Photo> {
+    private suspend fun getPhotosRemote(albumId: Int?): MutableList<Photo> {
          var photos = mutableListOf<Photo>()
         CoroutineScope(Dispatchers.Default).async {
             try {

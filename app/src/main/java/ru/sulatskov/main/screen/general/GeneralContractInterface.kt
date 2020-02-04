@@ -13,9 +13,5 @@ interface GeneralContractInterface {
     }
 
     interface Presenter : BasePresenterInterface<View> {
-        suspend fun getAlbumsRemote(): MutableList<Album>
-        suspend fun getAlbumsDB(): MutableList<Album>
-        fun insertAlbums(albums: MutableList<Album>)
-
     }
 }

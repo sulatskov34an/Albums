@@ -32,15 +32,13 @@ class PhotoFragment : BaseFragment(), PhotoContractInterface.View {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        photoPresenter.attach(this)
         url = arguments?.getString(AppConst.ID_URL_KEY, "")
         return inflater.inflate(R.layout.fragment_photo, container, false)
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        view?.save_btn?.setOnClickListener {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.save_btn?.setOnClickListener {
             var result = downloadFile("$url.jpg")
             if (result != -1L) {
                 toast(getString(R.string.save_success_text))
@@ -49,7 +47,7 @@ class PhotoFragment : BaseFragment(), PhotoContractInterface.View {
             }
         }
 
-        view?.photo_iv?.apply {
+        view.photo_iv?.apply {
             val path = url + ".jpg"
             Picasso.with(view?.context)
                 .load(path)
@@ -57,6 +55,7 @@ class PhotoFragment : BaseFragment(), PhotoContractInterface.View {
                 .placeholder(getProgressBar(context))
                 .into(photo_iv)
         }
+        photoPresenter.attach(this)
     }
 
     override fun showProgress() {
