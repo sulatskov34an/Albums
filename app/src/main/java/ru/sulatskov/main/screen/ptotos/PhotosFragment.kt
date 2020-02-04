@@ -9,10 +9,6 @@ import org.koin.android.ext.android.inject
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseFragment
 import kotlinx.android.synthetic.main.fragment_photos.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import ru.sulatskov.common.AppConst
 import ru.sulatskov.common.toast
 import ru.sulatskov.main.MainActivity
@@ -25,7 +21,7 @@ class PhotosFragment : BaseFragment(), PhotosContractInterface.View {
     private var albumId: Int? = 0
 
     var photosAdapter =
-        PhotosAdapter { photo -> (activity as? MainActivity)?.openPhotoScreen(photo.url) }
+        PhotosAdapter { photo -> (activity as? MainActivity)?.openSliderScreen(photo.albumId) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

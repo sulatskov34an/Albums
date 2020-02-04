@@ -6,8 +6,8 @@ import ru.sulatskov.main.screen.filters.FiltersContractInterface
 import ru.sulatskov.main.screen.filters.FiltersPresenter
 import ru.sulatskov.main.screen.general.GeneralContractInterface
 import ru.sulatskov.main.screen.general.GeneralPresenter
-import ru.sulatskov.main.screen.photo.PhotoContractInterface
-import ru.sulatskov.main.screen.photo.PhotoPresenter
+import ru.sulatskov.main.screen.slider.SliderContractInterface
+import ru.sulatskov.main.screen.slider.SliderPresenter
 import ru.sulatskov.main.screen.ptotos.PhotosContractInterface
 import ru.sulatskov.main.screen.ptotos.PhotosPresenter
 import ru.sulatskov.model.db.AlbumsDataBaseService
@@ -20,7 +20,7 @@ fun mainModule(context: Context) = module {
 
     factory <PhotosContractInterface.Presenter> { PhotosPresenter() }
 
-    factory <PhotoContractInterface.Presenter> { PhotoPresenter() }
+    factory <SliderContractInterface.Presenter> { SliderPresenter() }
 
     factory <FiltersContractInterface.Presenter> { FiltersPresenter() }
 

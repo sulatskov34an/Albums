@@ -3,19 +3,17 @@ package ru.sulatskov.main
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
-import org.koin.core.inject
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseActivity
 import ru.sulatskov.common.*
 import ru.sulatskov.main.screen.filters.FiltersFragment
 import ru.sulatskov.main.screen.general.GeneralFragment
-import ru.sulatskov.main.screen.photo.PhotoFragment
+import ru.sulatskov.main.screen.slider.SliderFragment
 import ru.sulatskov.main.screen.ptotos.PhotosFragment
 import ru.sulatskov.model.prefs.PrefsService
 
 class MainActivity : BaseActivity(), ProgressManager {
 
-    private val prefsService: PrefsService by inject()
     val connection: ConnectionProvider by inject()
 
     override val layoutResId: Int
@@ -59,19 +57,19 @@ class MainActivity : BaseActivity(), ProgressManager {
             .commit()
     }
 
-    fun openPhotoScreen(url: String?) {
+    fun openSliderScreen(albumId: Int?) {
         checkConnection()
-        val photoFragment = PhotoFragment()
+        val sliderFragment = SliderFragment()
         val bundle = Bundle()
-        bundle.putString(AppConst.ID_URL_KEY, url)
-        photoFragment.arguments = bundle
+        bundle.putInt(AppConst.ID_ALBUM_KEY, albumId ?: 0)
+        sliderFragment.arguments = bundle
 
         supportFragmentManager.beginTransaction()
             .replace(
                 R.id.main_fragment_container,
-                photoFragment
+                sliderFragment
             )
-            .addToBackStack(photoFragment.tag)
+            .addToBackStack(sliderFragment.tag)
             .commit()
     }
 
@@ -87,7 +85,7 @@ class MainActivity : BaseActivity(), ProgressManager {
             .commit()
     }
 
-    fun checkConnection(){
+    fun checkConnection() {
         if (connection.isConnected()) {
             no_internet_ll.gone()
         } else {

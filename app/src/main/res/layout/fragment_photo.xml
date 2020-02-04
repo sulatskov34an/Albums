@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/padding_item"
     android:layout_height="match_parent">
 
@@ -11,13 +12,13 @@
         android:layout_alignParentEnd="true"
         android:text="@string/save_label" />
 
-    <com.github.chrisbanes.photoview.PhotoView
-        android:id="@+id/photo_iv"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/photos_vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/save_btn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/margin_top"
-        android:padding="@dimen/padding_item" />
+        android:padding="@dimen/padding_item"/>
 
 </RelativeLayout>

@@ -1,15 +1,14 @@
-package ru.sulatskov.main.screen.photo
+package ru.sulatskov.main.screen.slider
 
-import android.app.DownloadManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import ru.sulatskov.base.presenter.BasePresenter
 import kotlin.coroutines.CoroutineContext
 
-class PhotoPresenter: BasePresenter<PhotoContractInterface.View>(), PhotoContractInterface.Presenter, CoroutineScope {
+class SliderPresenter: BasePresenter<SliderContractInterface.View>(), SliderContractInterface.Presenter, CoroutineScope {
 
-    override fun attach(view: PhotoContractInterface.View) {
+    override fun attach(view: SliderContractInterface.View) {
         super.attach(view)
     }
 

@@ -1,27 +1,32 @@
-package ru.sulatskov.main.screen.photo
+package ru.sulatskov.main.screen.slider
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseFragment
 import kotlinx.android.synthetic.main.fragment_photo.view.*
-import kotlinx.android.synthetic.main.fragment_photo.view.photo_iv
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import ru.sulatskov.common.AppConst
 import ru.sulatskov.common.downloadFile
-import ru.sulatskov.common.getProgressBar
 import ru.sulatskov.common.toast
 import ru.sulatskov.main.MainActivity
+import ru.sulatskov.model.network.MainApiService
+import ru.sulatskov.model.network.Photo
 
-class PhotoFragment : BaseFragment(), PhotoContractInterface.View {
+class SliderFragment : BaseFragment(), SliderContractInterface.View {
 
-    private val photoPresenter: PhotoContractInterface.Presenter by inject()
-    private var url: String? = ""
+    val mainApiService: MainApiService by inject()
 
-
+    private val photoPresenter: SliderContractInterface.Presenter by inject()
+    private var albumId: Int? = 0
+    lateinit var sliderAdapter: SlidingImageAdapter
+    var photos = listOf<String?>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setRetainInstance(true)
@@ -32,14 +37,28 @@ class PhotoFragment : BaseFragment(), PhotoContractInterface.View {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        url = arguments?.getString(AppConst.ID_URL_KEY, "")
+        albumId = arguments?.getInt(AppConst.ID_ALBUM_KEY, 0)
         return inflater.inflate(R.layout.fragment_photo, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        launch {
+            CoroutineScope(Dispatchers.IO).async {
+                photos =
+                    (mainApiService.getPhotosByAlbumId(albumId).await()).map { photo -> photo.url }
+
+                CoroutineScope(Dispatchers.Main).async {
+                   sliderAdapter = SlidingImageAdapter(view.context, photos)
+                    view.photos_vp.adapter = sliderAdapter
+                }.await()
+
+            }.await()
+        }
+
         view.save_btn?.setOnClickListener {
-            var result = downloadFile("$url.jpg")
+            val path = photos[view.photos_vp.currentItem]
+            var result = downloadFile("$path.jpg")
             if (result != -1L) {
                 toast(getString(R.string.save_success_text))
             } else {
@@ -47,15 +66,7 @@ class PhotoFragment : BaseFragment(), PhotoContractInterface.View {
             }
         }
 
-        view.photo_iv?.apply {
-            val path = url + ".jpg"
-            Picasso.with(view?.context)
-                .load(path)
-                .error(R.drawable.error)
-                .placeholder(getProgressBar(context))
-                .into(photo_iv)
-        }
-        photoPresenter.attach(this)
+         photoPresenter.attach(this)
     }
 
     override fun showProgress() {
@@ -65,6 +76,4 @@ class PhotoFragment : BaseFragment(), PhotoContractInterface.View {
     override fun hideProgress() {
         (activity as? MainActivity)?.hideProgress()
     }
-
-
 }

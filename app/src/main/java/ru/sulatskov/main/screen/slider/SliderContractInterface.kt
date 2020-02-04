@@ -1,9 +1,9 @@
-package ru.sulatskov.main.screen.photo
+package ru.sulatskov.main.screen.slider
 
 import ru.sulatskov.base.presenter.BasePresenterInterface
 import ru.sulatskov.base.view.BaseViewInterface
 
-interface PhotoContractInterface {
+interface SliderContractInterface {
 
     interface View : BaseViewInterface {
     }
