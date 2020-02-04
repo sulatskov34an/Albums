@@ -38,7 +38,7 @@ class PhotosPresenter: BasePresenter<PhotosContractInterface.View>(), PhotosCont
 
     override suspend fun getPhotosRemote(albumId: Int?): MutableList<Photo> {
          var photos = mutableListOf<Photo>()
-        async {
+        CoroutineScope(Dispatchers.Default).async {
             try {
                 photos = mainApiService.getPhotosByAlbumId(albumId = albumId).await()
                 return@async photos

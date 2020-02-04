@@ -31,14 +31,13 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
         launch {
             view.showProgress()
             CoroutineScope(Dispatchers.Default).async {
-                if (hasConnection){
+                if (hasConnection) {
                     albums = getAlbumsRemote()
-                    if(prefsService.hasDB == false){
-                        insertAlbums(albums)
-                        prefsService.hasDB = true
-                    }
-                }else{
-                    if(prefsService.hasDB){
+                    insertAlbums(albums)
+                    prefsService.hasDB = true
+
+                } else {
+                    if (prefsService.hasDB) {
                         albums = getAlbumsDB()
                     }
                 }
@@ -57,7 +56,7 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
 
     override suspend fun getAlbumsRemote(): MutableList<Album> {
         var albums = mutableListOf<Album>()
-        async {
+        CoroutineScope(Dispatchers.Default).async {
             try {
                 albums = mainApiService.getAlbums().await()
                 return@async albums
@@ -70,7 +69,7 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
 
     override suspend fun getAlbumsDB(): MutableList<Album> {
         var albums = mutableListOf<Album>()
-        async {
+        CoroutineScope(Dispatchers.Default).async {
             try {
                 albums = dbService.getAllAlbums().map { album ->
                     Album(
@@ -89,7 +88,7 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
     }
 
     override fun insertAlbums(albums: MutableList<Album>) {
-        launch {
+        CoroutineScope(Dispatchers.Default).launch {
             dbService.insertAlbumsList(albums = albums.map { album ->
                 AlbumEntity(
                     id = album.id,
