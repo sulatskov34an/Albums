@@ -1,4 +1,4 @@
-package ru.sulatskov.main.screen.ptotos
+package ru.sulatskov.main.screen.album
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +10,8 @@ import ru.sulatskov.R
 import ru.sulatskov.common.getProgressBar
 import ru.sulatskov.model.network.Photo
 
-class PhotosAdapter(private val listener: (Photo) -> Unit) :
-    RecyclerView.Adapter<PhotosAdapter.ViewHolder>() {
+class AlbumAdapter(private val listener: (Photo) -> Unit) :
+    RecyclerView.Adapter<AlbumAdapter.ViewHolder>() {
 
     private val photos = mutableListOf<Photo>()
 

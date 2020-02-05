@@ -30,12 +30,9 @@ class SliderPresenter : BasePresenter<SliderContractInterface.View>(),
 
     override fun getUrl(position: Int) = photos[position]
 
-    override fun getTotalCount(): Int = photos.size
-
-    suspend fun getPhotosByAlbumId(albumId: Int): MutableList<Photo> {
+    private suspend fun getPhotosByAlbumId(albumId: Int): MutableList<Photo> {
         var photos = mutableListOf<Photo>()
         CoroutineScope(Dispatchers.IO).async {
-
             photos = mainApiService.getPhotosByAlbumId(albumId).await()
         }.await()
         return photos

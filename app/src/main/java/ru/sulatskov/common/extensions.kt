@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.launch
 import ru.sulatskov.base.view.BaseFragment
+import ru.sulatskov.main.MainActivity
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -94,6 +95,10 @@ fun hasConnection(context: Context?): Boolean {
         return true
     }
     return false
+}
+
+fun BaseFragment.updateToolbar(title: String, hasHomeUp: Boolean) {
+    (activity as? MainActivity)?.updateToolbar(title, hasHomeUp)
 }
 
 fun BaseFragment.downloadFile(url: String?, relativePath: String = "/albums/"): Long? {

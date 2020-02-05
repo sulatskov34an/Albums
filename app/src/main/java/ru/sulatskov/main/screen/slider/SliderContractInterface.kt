@@ -13,6 +13,5 @@ interface SliderContractInterface {
 
     interface Presenter : BasePresenterInterface<View> {
         fun getUrl(position: Int): String?
-        fun getTotalCount(): Int
     }
 }

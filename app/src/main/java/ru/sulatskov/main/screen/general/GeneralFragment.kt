@@ -1,6 +1,5 @@
 package ru.sulatskov.main.screen.general
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,10 +11,6 @@ import ru.sulatskov.base.view.BaseFragment
 import ru.sulatskov.main.MainActivity
 import ru.sulatskov.model.network.Album
 import kotlinx.android.synthetic.main.fragment_general.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import ru.sulatskov.common.*
 
 class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
@@ -23,7 +18,7 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
     private val generalPresenter: GeneralContractInterface.Presenter by inject()
 
     private var albumsAdapter =
-        AlbumsAdapter { album: Album -> (activity as? MainActivity)?.openPhotosScreen(albumId = album.id) }
+        AlbumsAdapter { album: Album -> (activity as? MainActivity)?.openAlbumScreen(albumId = album.id) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +30,7 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        updateToolbar(getToolbarTitle(), getHasHomeUp())
         return inflater.inflate(R.layout.fragment_general, container, false)
     }
 
@@ -44,12 +40,13 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
         view.albums_rv?.adapter = albumsAdapter
         view.albums_rv?.addItemDecoration(SimpleDividerItemDecoration(context))
         view.filter_iv?.setOnClickListener { (activity as? MainActivity)?.openFiltersScreen() }
+        view.swipe_container?.setOnRefreshListener { (activity as? MainActivity)?.openGeneralScreen() }
         generalPresenter.attach(this)
 
     }
 
     override fun showError() {
-        toast(getString(R.string.error_load_data_lable))
+        toast(getString(R.string.error_load_data_label))
     }
 
     override fun showContent(albums: List<Album>) {
@@ -63,6 +60,10 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
     override fun hideProgress() {
         (activity as? MainActivity)?.hideProgress()
     }
+
+    override fun getToolbarTitle() = "Главная"
+
+    override fun getHasHomeUp() = false
 
 
 }

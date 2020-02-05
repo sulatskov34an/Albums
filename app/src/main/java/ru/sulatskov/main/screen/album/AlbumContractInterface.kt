@@ -1,10 +1,10 @@
-package ru.sulatskov.main.screen.ptotos
+package ru.sulatskov.main.screen.album
 
 import ru.sulatskov.base.presenter.BasePresenterInterface
 import ru.sulatskov.base.view.BaseViewInterface
 import ru.sulatskov.model.network.Photo
 
-interface PhotosContractInterface {
+interface AlbumContractInterface {
 
     interface View : BaseViewInterface {
         fun showError()

@@ -1,17 +1,16 @@
 package ru.sulatskov.main.screen.slider
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.viewpager.widget.ViewPager
 import org.koin.android.ext.android.inject
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseFragment
-import kotlinx.android.synthetic.main.fragment_photo.view.*
+import kotlinx.android.synthetic.main.fragment_slider.view.*
 import ru.sulatskov.common.AppConst
 import ru.sulatskov.common.downloadFile
 import ru.sulatskov.common.toast
+import ru.sulatskov.common.updateToolbar
 import ru.sulatskov.main.MainActivity
 import ru.sulatskov.model.network.MainApiService
 
@@ -21,8 +20,8 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
 
     private val photoPresenter: SliderContractInterface.Presenter by inject()
     private var albumId: Int? = 0
+    private var totalCount: Int? = 0
     lateinit var sliderAdapter: SlidingImageAdapter
-    var totalCount = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setRetainInstance(true)
@@ -34,22 +33,20 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
         savedInstanceState: Bundle?
     ): View? {
         albumId = arguments?.getInt(AppConst.ID_ALBUM_KEY, 0)
-        return inflater.inflate(R.layout.fragment_photo, container, false)
+        totalCount = arguments?.getInt(AppConst.PHOTOS_COUNT_KEY, 0)
+        updateToolbar(getToolbarTitle(), getHasHomeUp())
+        return inflater.inflate(R.layout.fragment_slider, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         photoPresenter.attach(this)
-
-        totalCount = photoPresenter.getTotalCount()
-
         view.save_btn?.setOnClickListener {
             savePhoto(photoPresenter.getUrl(view.photos_vp.currentItem))
         }
 
         view.current_photo_tv.setText("1 из $totalCount")
-
+        view.swipe_container.setOnRefreshListener { (activity as MainActivity).openSliderScreen(albumId, totalCount) }
         view.photos_vp.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
 
@@ -96,4 +93,8 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
     override fun hideProgress() {
         (activity as? MainActivity)?.hideProgress()
     }
+
+    override fun getToolbarTitle() = "Альбом"
+
+    override fun getHasHomeUp() = true
 }

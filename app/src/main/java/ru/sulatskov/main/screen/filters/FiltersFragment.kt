@@ -8,6 +8,7 @@ import org.koin.android.ext.android.inject
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseFragment
 import kotlinx.android.synthetic.main.fragment_filters.view.*
+import ru.sulatskov.common.updateToolbar
 import ru.sulatskov.main.MainActivity
 
 class FiltersFragment : BaseFragment(), FiltersContractInterface.View{
@@ -24,6 +25,7 @@ class FiltersFragment : BaseFragment(), FiltersContractInterface.View{
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        updateToolbar(getToolbarTitle(), getHasHomeUp())
         return inflater.inflate(R.layout.fragment_filters, container, false)
     }
 
@@ -41,5 +43,9 @@ class FiltersFragment : BaseFragment(), FiltersContractInterface.View{
     override fun hideProgress() {
         (activity as? MainActivity)?.hideProgress()
     }
+
+    override fun getToolbarTitle() = "Главная"
+
+    override fun getHasHomeUp() = true
 
 }

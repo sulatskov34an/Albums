@@ -8,8 +8,8 @@ import ru.sulatskov.main.screen.general.GeneralContractInterface
 import ru.sulatskov.main.screen.general.GeneralPresenter
 import ru.sulatskov.main.screen.slider.SliderContractInterface
 import ru.sulatskov.main.screen.slider.SliderPresenter
-import ru.sulatskov.main.screen.ptotos.PhotosContractInterface
-import ru.sulatskov.main.screen.ptotos.PhotosPresenter
+import ru.sulatskov.main.screen.album.AlbumContractInterface
+import ru.sulatskov.main.screen.album.AlbumPresenter
 import ru.sulatskov.model.db.AlbumsDataBaseService
 import ru.sulatskov.model.network.MainApiService
 import ru.sulatskov.model.prefs.PrefsService
@@ -18,7 +18,7 @@ fun mainModule(context: Context) = module {
 
     factory <GeneralContractInterface.Presenter> { GeneralPresenter( ) }
 
-    factory <PhotosContractInterface.Presenter> { PhotosPresenter() }
+    factory <AlbumContractInterface.Presenter> { AlbumPresenter() }
 
     factory <SliderContractInterface.Presenter> { SliderPresenter() }
 

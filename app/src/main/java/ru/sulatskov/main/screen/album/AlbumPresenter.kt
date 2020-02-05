@@ -1,4 +1,4 @@
-package ru.sulatskov.main.screen.ptotos
+package ru.sulatskov.main.screen.album
 
 import kotlinx.coroutines.*
 import org.koin.core.KoinComponent
@@ -8,7 +8,7 @@ import ru.sulatskov.model.network.MainApiService
 import ru.sulatskov.model.network.Photo
 import kotlin.coroutines.CoroutineContext
 
-class PhotosPresenter: BasePresenter<PhotosContractInterface.View>(), PhotosContractInterface.Presenter, CoroutineScope, KoinComponent {
+class AlbumPresenter: BasePresenter<AlbumContractInterface.View>(), AlbumContractInterface.Presenter, CoroutineScope, KoinComponent {
 
     private val job = Job()
 
@@ -17,7 +17,7 @@ class PhotosPresenter: BasePresenter<PhotosContractInterface.View>(), PhotosCont
 
     val mainApiService: MainApiService by inject()
 
-    override fun attach(view: PhotosContractInterface.View) {
+    override fun attach(view: AlbumContractInterface.View) {
         var photos = mutableListOf<Photo>()
         super.attach(view)
         launch {

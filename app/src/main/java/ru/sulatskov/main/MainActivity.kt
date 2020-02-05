@@ -9,10 +9,9 @@ import ru.sulatskov.common.*
 import ru.sulatskov.main.screen.filters.FiltersFragment
 import ru.sulatskov.main.screen.general.GeneralFragment
 import ru.sulatskov.main.screen.slider.SliderFragment
-import ru.sulatskov.main.screen.ptotos.PhotosFragment
-import ru.sulatskov.model.prefs.PrefsService
+import ru.sulatskov.main.screen.album.AlbumFragment
 
-class MainActivity : BaseActivity(), ProgressManager {
+class MainActivity : BaseActivity(), ProgressManager{
 
     val connection: ConnectionProvider by inject()
 
@@ -41,27 +40,28 @@ class MainActivity : BaseActivity(), ProgressManager {
             .commit()
     }
 
-    fun openPhotosScreen(albumId: Int?) {
+    fun openAlbumScreen(albumId: Int?) {
         checkConnection()
-        val photosFragment = PhotosFragment()
+        val albumFragment = AlbumFragment()
         val bundle = Bundle()
         bundle.putInt(AppConst.ID_ALBUM_KEY, albumId ?: 0)
-        photosFragment.arguments = bundle
+        albumFragment.arguments = bundle
 
         supportFragmentManager.beginTransaction()
             .replace(
                 R.id.main_fragment_container,
-                photosFragment
+                albumFragment
             )
-            .addToBackStack(photosFragment.tag)
+            .addToBackStack(albumFragment.tag)
             .commit()
     }
 
-    fun openSliderScreen(albumId: Int?) {
+    fun openSliderScreen(albumId: Int?, photoCount: Int?) {
         checkConnection()
         val sliderFragment = SliderFragment()
         val bundle = Bundle()
         bundle.putInt(AppConst.ID_ALBUM_KEY, albumId ?: 0)
+        bundle.putInt(AppConst.PHOTOS_COUNT_KEY, photoCount ?: 0)
         sliderFragment.arguments = bundle
 
         supportFragmentManager.beginTransaction()
@@ -90,6 +90,40 @@ class MainActivity : BaseActivity(), ProgressManager {
             no_internet_ll.gone()
         } else {
             no_internet_ll.visible()
+        }
+    }
+
+    override fun onBackPressed() {
+        btnUpListener()
+    }
+
+    fun updateToolbar(title: String, isClickable: Boolean) {
+        toolbar?.apply {
+            btn_up.setOnClickListener(null)
+            btn_up.gone()
+
+            if (isClickable) {
+                btn_up.setOnClickListener{
+                    btnUpListener()
+                }
+
+                toolbar_title.setOnClickListener{
+                    btnUpListener()
+                }
+
+                btn_up.visible()
+            }
+
+            toolbar_title.text = title
+        }
+    }
+
+    fun btnUpListener() {
+
+        if (supportFragmentManager.backStackEntryCount == 1) {
+            finish()
+        } else {
+            supportFragmentManager.popBackStack()
         }
     }
 }
