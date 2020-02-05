@@ -4,6 +4,7 @@ import kotlinx.coroutines.*
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import ru.sulatskov.base.presenter.BasePresenter
+import ru.sulatskov.common.AppConst
 import ru.sulatskov.common.ConnectionProvider
 import ru.sulatskov.model.db.AlbumsDataBaseService
 import ru.sulatskov.model.db.entity.AlbumEntity
@@ -25,10 +26,10 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
     val prefsService: PrefsService by inject()
     val connection: ConnectionProvider by inject()
 
-    override fun attach(view: GeneralContractInterface.View) {
+    override fun sortBy(sort: String) {
         var albums = mutableListOf<Album>()
         launch {
-            view.showProgress()
+            view?.showProgress()
             CoroutineScope(Dispatchers.Default).async {
                 if (connection.isConnected()) {
                     albums = getAlbumsRemote()
@@ -41,15 +42,24 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
                     }
                 }
                 CoroutineScope(Dispatchers.Main).async {
-                    view.hideProgress()
+                    view?.hideProgress()
                     if (albums.isEmpty()) {
-                        view.showError()
+                        view?.showError()
                     } else {
-                        view.showContent(albums)
+                        when (sort) {
+                            AppConst.SORT_DEFAULT -> view?.showContent(albums)
+                            AppConst.SORT_NAME_ACS -> view?.showContent(albums.sortedBy { it.title })
+                            AppConst.SORT_NAME_DECS -> view?.showContent(albums.sortedByDescending { it.title })
+                            else -> view?.showContent(albums)
+                        }
+
                     }
                 }.await()
             }.await()
         }
+    }
+
+    override fun attach(view: GeneralContractInterface.View) {
         super.attach(view)
     }
 
@@ -96,7 +106,7 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
                     )
                 })
 
-            }catch (e: Exception){
+            } catch (e: Exception) {
 
             }
         }

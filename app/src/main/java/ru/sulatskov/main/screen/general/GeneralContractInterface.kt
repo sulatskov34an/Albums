@@ -1,6 +1,5 @@
 package ru.sulatskov.main.screen.general
 
-import android.content.Context
 import ru.sulatskov.base.presenter.BasePresenterInterface
 import ru.sulatskov.base.view.BaseViewInterface
 import ru.sulatskov.model.network.Album
@@ -13,5 +12,6 @@ interface GeneralContractInterface {
     }
 
     interface Presenter : BasePresenterInterface<View> {
+        fun sortBy(sort: String)
     }
 }

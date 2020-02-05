@@ -20,7 +20,7 @@ import ru.sulatskov.common.*
 class GeneralFragment : BaseFragment(), GeneralContractInterface.View, TextWatcher {
 
     private val generalPresenter: GeneralContractInterface.Presenter by inject()
-
+    private var sortBy: String? = AppConst.SORT_DEFAULT
     private var albumsAdapter =
         AlbumsAdapter { album: Album -> (activity as? MainActivity)?.openAlbumScreen(albumId = album.id) }
 
@@ -34,20 +34,25 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View, TextWatch
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        sortBy = arguments?.getString(AppConst.SORT_KEY, AppConst.SORT_DEFAULT)
         updateToolbar(getToolbarTitle(), getHasHomeUp())
         return inflater.inflate(R.layout.fragment_general, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.albums_rv?.layoutManager = LinearLayoutManager(view?.context)
+        view.albums_rv?.layoutManager = LinearLayoutManager(view.context)
         view.albums_rv?.adapter = albumsAdapter
         view.albums_rv?.addItemDecoration(SimpleDividerItemDecoration(context))
         view.filter_iv?.setOnClickListener { (activity as? MainActivity)?.openFiltersScreen() }
-        view.swipe_container?.setOnRefreshListener { (activity as? MainActivity)?.openGeneralScreen() }
+        view.swipe_container?.setOnRefreshListener { (activity as? MainActivity)?.openGeneralScreen(sortBy = AppConst.SORT_DEFAULT) }
         view.filter_search_et.addTextChangedListener(this)
         generalPresenter.attach(this)
-
+        when(sortBy){
+            AppConst.SORT_DEFAULT -> generalPresenter.sortBy(AppConst.SORT_DEFAULT)
+            AppConst.SORT_NAME_ACS -> generalPresenter.sortBy(AppConst.SORT_NAME_ACS)
+            AppConst.SORT_NAME_DECS -> generalPresenter.sortBy(AppConst.SORT_NAME_DECS)
+        }
     }
 
     override fun showError() {

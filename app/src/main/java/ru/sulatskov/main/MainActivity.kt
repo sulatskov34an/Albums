@@ -11,7 +11,7 @@ import ru.sulatskov.main.screen.general.GeneralFragment
 import ru.sulatskov.main.screen.slider.SliderFragment
 import ru.sulatskov.main.screen.album.AlbumFragment
 
-class MainActivity : BaseActivity(), ProgressManager{
+class MainActivity : BaseActivity(), ProgressManager {
 
     val connection: ConnectionProvider by inject()
 
@@ -19,7 +19,7 @@ class MainActivity : BaseActivity(), ProgressManager{
         get() = R.layout.activity_main
 
     override fun init(state: Bundle?) {
-        openGeneralScreen()
+        openGeneralScreen(AppConst.SORT_DEFAULT)
     }
 
     override fun showProgress() {
@@ -30,9 +30,13 @@ class MainActivity : BaseActivity(), ProgressManager{
         main_progress.gone()
     }
 
-    fun openGeneralScreen() {
+    fun openGeneralScreen(sortBy: String?) {
         checkConnection()
         val generalFragment = GeneralFragment()
+        val bundle = Bundle()
+        bundle.putString(AppConst.SORT_KEY, sortBy ?: AppConst.SORT_DEFAULT)
+        generalFragment.arguments = bundle
+
         supportFragmentManager.beginTransaction().replace(
             R.id.main_fragment_container,
             generalFragment
@@ -103,11 +107,11 @@ class MainActivity : BaseActivity(), ProgressManager{
             btn_up.gone()
 
             if (isClickable) {
-                btn_up.setOnClickListener{
+                btn_up.setOnClickListener {
                     btnUpListener()
                 }
 
-                toolbar_title.setOnClickListener{
+                toolbar_title.setOnClickListener {
                     btnUpListener()
                 }
 
