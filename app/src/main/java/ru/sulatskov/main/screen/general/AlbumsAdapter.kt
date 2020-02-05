@@ -40,6 +40,8 @@ class AlbumsAdapter(private val listener: (Album) -> Unit) :
         notifyDataSetChanged()
     }
 
+    fun getList() = albums
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(album: Album, listener: (Album) -> Unit) {

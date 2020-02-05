@@ -1,6 +1,8 @@
 package ru.sulatskov.main.screen.general
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +13,11 @@ import ru.sulatskov.base.view.BaseFragment
 import ru.sulatskov.main.MainActivity
 import ru.sulatskov.model.network.Album
 import kotlinx.android.synthetic.main.fragment_general.view.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ru.sulatskov.common.*
 
-class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
+class GeneralFragment : BaseFragment(), GeneralContractInterface.View, TextWatcher {
 
     private val generalPresenter: GeneralContractInterface.Presenter by inject()
 
@@ -41,6 +45,7 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
         view.albums_rv?.addItemDecoration(SimpleDividerItemDecoration(context))
         view.filter_iv?.setOnClickListener { (activity as? MainActivity)?.openFiltersScreen() }
         view.swipe_container?.setOnRefreshListener { (activity as? MainActivity)?.openGeneralScreen() }
+        view.filter_search_et.addTextChangedListener(this)
         generalPresenter.attach(this)
 
     }
@@ -64,6 +69,29 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View {
     override fun getToolbarTitle() = "Главная"
 
     override fun getHasHomeUp() = false
+
+    override fun afterTextChanged(s: Editable?) {
+
+    }
+
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        launch {
+            delay(1000)
+            val list = albumsAdapter.getList()
+            val sortedList = mutableListOf<Album>()
+            for(item in list)
+            if(item.title?.contains(s.toString()) == true){
+                sortedList.add(item)
+            }
+            albumsAdapter.setData(sortedList)
+        }
+        if(s.isNullOrEmpty()){
+            generalPresenter.attach(this)
+        }
+    }
 
 
 }
