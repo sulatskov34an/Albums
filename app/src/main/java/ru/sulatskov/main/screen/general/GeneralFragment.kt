@@ -94,7 +94,7 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View, TextWatch
             albumsAdapter.setData(sortedList)
         }
         if(s.isNullOrEmpty()){
-            generalPresenter.attach(this)
+            generalPresenter.sortBy(AppConst.SORT_DEFAULT)
         }
     }
 
