@@ -34,6 +34,8 @@ class SlidingImageAdapter(context: Context, images: List<String?>) : PagerAdapte
                 .load(path)
                 .error(R.drawable.error)
                 .placeholder(getProgressBar(context))
+                .fit()
+                .centerCrop()
                 .into(photo_iv)
         }
         container.addView(imageLayout, 0)

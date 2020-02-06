@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.android.ext.android.inject
 import ru.sulatskov.R
@@ -45,10 +46,18 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View, TextWatch
         view.albums_rv?.adapter = albumsAdapter
         view.albums_rv?.addItemDecoration(SimpleDividerItemDecoration(context))
         view.filter_iv?.setOnClickListener { (activity as? MainActivity)?.openFiltersScreen() }
-        view.swipe_container?.setOnRefreshListener { (activity as? MainActivity)?.openGeneralScreen(sortBy = AppConst.SORT_DEFAULT) }
+        view.swipe_container?.setOnRefreshListener {
+            (activity as? MainActivity)?.openGeneralScreen(
+                sortBy = AppConst.SORT_DEFAULT
+            )
+        }
         view.filter_search_et.addTextChangedListener(this)
+        view.apply {
+            (activity as? MainActivity)?.getWindow()
+                ?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        }
         generalPresenter.attach(this)
-        when(sortBy){
+        when (sortBy) {
             AppConst.SORT_DEFAULT -> generalPresenter.sortBy(AppConst.SORT_DEFAULT)
             AppConst.SORT_NAME_ACS -> generalPresenter.sortBy(AppConst.SORT_NAME_ACS)
             AppConst.SORT_NAME_DECS -> generalPresenter.sortBy(AppConst.SORT_NAME_DECS)
@@ -87,13 +96,13 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View, TextWatch
             delay(1000)
             val list = albumsAdapter.getList()
             val sortedList = mutableListOf<Album>()
-            for(item in list)
-            if(item.title?.contains(s.toString()) == true){
-                sortedList.add(item)
-            }
+            for (item in list)
+                if (item.title?.contains(s.toString()) == true) {
+                    sortedList.add(item)
+                }
             albumsAdapter.setData(sortedList)
         }
-        if(s.isNullOrEmpty()){
+        if (s.isNullOrEmpty()) {
             generalPresenter.sortBy(AppConst.SORT_DEFAULT)
         }
     }

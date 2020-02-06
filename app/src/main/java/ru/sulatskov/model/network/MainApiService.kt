@@ -1,5 +1,6 @@
 package ru.sulatskov.model.network
 
+import android.util.Log
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
@@ -24,6 +25,7 @@ class MainApiService {
             proceed
 
         } catch (e: Exception) {
+            Log.d("Exception ${javaClass.simpleName}", e.toString())
             it.proceed(it.request())
         }
     }

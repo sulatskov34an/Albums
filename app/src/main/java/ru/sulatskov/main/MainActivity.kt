@@ -89,7 +89,7 @@ class MainActivity : BaseActivity(), ProgressManager {
             .commit()
     }
 
-    fun checkConnection() {
+    private fun checkConnection() {
         if (connection.isConnected()) {
             no_internet_ll.gone()
         } else {
@@ -98,7 +98,7 @@ class MainActivity : BaseActivity(), ProgressManager {
     }
 
     override fun onBackPressed() {
-        btnUpListener()
+        toPreviousScreen()
     }
 
     fun updateToolbar(title: String, isClickable: Boolean) {
@@ -108,11 +108,11 @@ class MainActivity : BaseActivity(), ProgressManager {
 
             if (isClickable) {
                 btn_up.setOnClickListener {
-                    btnUpListener()
+                    toPreviousScreen()
                 }
 
                 toolbar_title.setOnClickListener {
-                    btnUpListener()
+                    toPreviousScreen()
                 }
 
                 btn_up.visible()
@@ -122,8 +122,7 @@ class MainActivity : BaseActivity(), ProgressManager {
         }
     }
 
-    fun btnUpListener() {
-
+    private fun toPreviousScreen() {
         if (supportFragmentManager.backStackEntryCount == 1) {
             finish()
         } else {

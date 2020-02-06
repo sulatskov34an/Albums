@@ -4,11 +4,16 @@ import android.app.DownloadManager
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.getSystemService
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
@@ -55,6 +60,7 @@ fun <T, D> T.request(
             hideProgress()
             onComplete.invoke(response)
         }catch (e: Exception){
+            Log.d("Exception ${javaClass.simpleName}", e.toString())
             toast("Ошибка интернет соединения")
         }
     }
@@ -110,10 +116,10 @@ fun BaseFragment.downloadFile(url: String?, relativePath: String = "/albums/"): 
         val request = android.app.DownloadManager.Request(uri)
 
         //Setting title of request
-        request.setTitle("Download " + uri.lastPathSegment)
+        request.setTitle(uri.lastPathSegment)
 
         //Setting description of request
-        request.setDescription("Download " + uri.path)
+        request.setDescription(uri.path)
 
         //Set the local destination for the downloaded file to a path within the application's external files directory
         request.setDestinationInExternalFilesDir(

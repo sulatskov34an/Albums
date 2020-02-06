@@ -1,11 +1,13 @@
 package ru.sulatskov.main.screen.general
 
+import android.util.Log
 import kotlinx.coroutines.*
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import ru.sulatskov.base.presenter.BasePresenter
 import ru.sulatskov.common.AppConst
 import ru.sulatskov.common.ConnectionProvider
+import ru.sulatskov.main.screen.slider.SliderRepository
 import ru.sulatskov.model.db.AlbumsDataBaseService
 import ru.sulatskov.model.db.entity.AlbumEntity
 import ru.sulatskov.model.network.Album
@@ -21,10 +23,9 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
 
-    val mainApiService: MainApiService by inject()
-    val dbService: AlbumsDataBaseService by inject()
     val prefsService: PrefsService by inject()
     val connection: ConnectionProvider by inject()
+    private val generalRepository : GeneralRepository by inject()
 
     override fun sortBy(sort: String) {
         var albums = mutableListOf<Album>()
@@ -32,13 +33,13 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
             view?.showProgress()
             CoroutineScope(Dispatchers.Default).async {
                 if (connection.isConnected()) {
-                    albums = getAlbumsRemote()
-                    insertAlbums(albums)
+                    albums = generalRepository.getAlbumsRemote()
+                    generalRepository.insertAlbums(albums)
                     prefsService.hasDB = true
 
                 } else {
                     if (prefsService.hasDB) {
-                        albums = getAlbumsDB()
+                        albums = generalRepository.getAlbumsDB()
                     }
                 }
                 CoroutineScope(Dispatchers.Main).async {
@@ -61,54 +62,5 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
 
     override fun attach(view: GeneralContractInterface.View) {
         super.attach(view)
-    }
-
-    private suspend fun getAlbumsRemote(): MutableList<Album> {
-        var albums = mutableListOf<Album>()
-        CoroutineScope(Dispatchers.Default).async {
-            try {
-                albums = mainApiService.getAlbums().await()
-                return@async albums
-            } catch (e: Exception) {
-                return@async albums
-            }
-        }.await()
-        return albums
-    }
-
-    private suspend fun getAlbumsDB(): MutableList<Album> {
-        var albums = mutableListOf<Album>()
-        CoroutineScope(Dispatchers.Default).async {
-            try {
-                albums = dbService.getAllAlbums().map { album ->
-                    Album(
-                        id = album.id,
-                        title = album.title,
-                        userId = album.userId
-                    )
-                }.toMutableList()
-                return@async albums
-            } catch (e: Exception) {
-                return@async albums
-            }
-        }.await()
-        return albums
-    }
-
-    private fun insertAlbums(albums: MutableList<Album>) {
-        CoroutineScope(Dispatchers.Default).launch {
-            try {
-                dbService.insertAlbumsList(albums = albums.map { album ->
-                    AlbumEntity(
-                        id = album.id,
-                        userId = album.userId,
-                        title = album.title
-                    )
-                })
-
-            } catch (e: Exception) {
-
-            }
-        }
     }
 }
