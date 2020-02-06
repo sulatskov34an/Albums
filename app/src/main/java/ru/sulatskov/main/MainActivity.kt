@@ -13,7 +13,7 @@ import ru.sulatskov.main.screen.album.AlbumFragment
 
 class MainActivity : BaseActivity(), ProgressManager {
 
-    val connection: ConnectionProvider by inject()
+    private val connection: ConnectionProvider by inject()
 
     override val layoutResId: Int
         get() = R.layout.activity_main

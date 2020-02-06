@@ -6,13 +6,8 @@ import ru.sulatskov.base.view.BaseViewInterface
 
 interface FiltersContractInterface {
 
-    interface View : BaseViewInterface {
-    }
+    interface View : BaseViewInterface
 
-    interface Presenter : BasePresenterInterface<View> {
-    }
-
-    interface Repository : BaseRepositoryInterface {
-    }
+    interface Presenter : BasePresenterInterface<View>
 
 }

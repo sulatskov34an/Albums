@@ -1,19 +1,13 @@
 package ru.sulatskov.main.screen.general
 
-import android.util.Log
 import kotlinx.coroutines.*
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import ru.sulatskov.base.presenter.BasePresenter
 import ru.sulatskov.common.AppConst
 import ru.sulatskov.common.ConnectionProvider
-import ru.sulatskov.main.screen.slider.SliderRepository
-import ru.sulatskov.model.db.AlbumsDataBaseService
-import ru.sulatskov.model.db.entity.AlbumEntity
 import ru.sulatskov.model.network.Album
-import ru.sulatskov.model.network.MainApiService
 import ru.sulatskov.model.prefs.PrefsService
-import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
 class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
@@ -23,8 +17,8 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
 
-    val prefsService: PrefsService by inject()
-    val connection: ConnectionProvider by inject()
+    private val prefsService: PrefsService by inject()
+    private val connection: ConnectionProvider by inject()
     private val generalRepository : GeneralRepository by inject()
 
     override fun sortBy(sort: String) {
@@ -58,9 +52,5 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
                 }.await()
             }.await()
         }
-    }
-
-    override fun attach(view: GeneralContractInterface.View) {
-        super.attach(view)
     }
 }

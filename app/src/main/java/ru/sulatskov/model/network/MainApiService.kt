@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 
 class MainApiService {
 
-    private val intercepter: Interceptor = Interceptor {
+    private val interceptor: Interceptor = Interceptor {
         try {
             val request = it.request()
 
@@ -34,7 +34,7 @@ class MainApiService {
         .baseUrl(API_URL)
         .client(
             OkHttpClient.Builder()
-                .addInterceptor(intercepter)
+                .addInterceptor(interceptor)
                 .retryOnConnectionFailure(true)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)

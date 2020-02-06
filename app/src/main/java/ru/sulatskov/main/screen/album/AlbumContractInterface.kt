@@ -13,8 +13,7 @@ interface AlbumContractInterface {
         fun getAlbumId(): Int?
     }
 
-    interface Presenter : BasePresenterInterface<View> {
-    }
+    interface Presenter : BasePresenterInterface<View>
 
     interface Repository : BaseRepositoryInterface {
         suspend fun getPhotosRemote(albumId: Int?): MutableList<Photo>

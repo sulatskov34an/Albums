@@ -1,4 +1,3 @@
 package ru.sulatskov.base.repository
 
-interface BaseRepositoryInterface {
-}
+interface BaseRepositoryInterface

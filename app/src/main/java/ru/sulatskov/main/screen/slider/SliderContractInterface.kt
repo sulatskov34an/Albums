@@ -4,7 +4,6 @@ import ru.sulatskov.base.presenter.BasePresenterInterface
 import ru.sulatskov.base.repository.BaseRepositoryInterface
 import ru.sulatskov.base.view.BaseViewInterface
 import ru.sulatskov.model.network.Photo
-import java.text.FieldPosition
 
 interface SliderContractInterface {
 

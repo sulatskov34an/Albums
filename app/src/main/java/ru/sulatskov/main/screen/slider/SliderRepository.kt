@@ -11,7 +11,7 @@ import ru.sulatskov.model.network.Photo
 import java.lang.Exception
 
 class SliderRepository: SliderContractInterface.Repository, KoinComponent{
-    val mainApiService: MainApiService by inject()
+    private val mainApiService: MainApiService by inject()
 
     override suspend fun getPhotosByAlbumId(albumId: Int): MutableList<Photo> {
         var photos = mutableListOf<Photo>()

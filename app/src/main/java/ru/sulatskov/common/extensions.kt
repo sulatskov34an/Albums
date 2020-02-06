@@ -2,42 +2,15 @@ package ru.sulatskov.common
 
 import android.app.DownloadManager
 import android.content.Context
-import android.net.ConnectivityManager
-import android.os.Environment
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.getSystemService
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.launch
 import ru.sulatskov.base.view.BaseFragment
 import ru.sulatskov.main.MainActivity
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
-import java.io.OutputStream
-import java.net.URL
-
 
 interface ProgressManager {
     fun showProgress()
     fun hideProgress()
-}
-
-fun BaseFragment.hideProgress() {
-    (activity as? ProgressManager)?.hideProgress()
-}
-
-fun BaseFragment.showProgress() {
-    (activity as? ProgressManager)?.showProgress()
 }
 
 fun BaseFragment.toast(msg: String) {
@@ -45,29 +18,6 @@ fun BaseFragment.toast(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 }
-
-fun <T, D> T.request(
-    deferred: Deferred<D>,
-    showProgress: Boolean = true,
-    onComplete: (D) -> Unit
-) where T : BaseFragment, T : CoroutineScope {
-    if (showProgress) {
-        showProgress()
-    }
-    launch(coroutineContext) {
-        try {
-            val response = deferred.await()
-            hideProgress()
-            onComplete.invoke(response)
-        }catch (e: Exception){
-            Log.d("Exception ${javaClass.simpleName}", e.toString())
-            toast("Ошибка интернет соединения")
-        }
-    }
-}
-
-fun ViewGroup.inflate(@LayoutRes layout: Int): View =
-    LayoutInflater.from(context).inflate(layout, this, false)
 
 fun View.visible() {
     visibility = View.VISIBLE
@@ -84,23 +34,6 @@ fun getProgressBar(context: Context): CircularProgressDrawable {
     circularProgressDrawable.start()
 
     return circularProgressDrawable
-}
-
-fun hasConnection(context: Context?): Boolean {
-    var cm = context?.getSystemService(android.content.Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    var wifiInfo = cm.getNetworkInfo(android.net.ConnectivityManager.TYPE_WIFI)
-    if (wifiInfo != null && wifiInfo.isConnected) {
-        return true
-    }
-    wifiInfo = cm.getNetworkInfo(android.net.ConnectivityManager.TYPE_MOBILE)
-    if (wifiInfo != null && wifiInfo.isConnected) {
-        return true
-    }
-    wifiInfo = cm.activeNetworkInfo
-    if (wifiInfo != null && wifiInfo.isConnected) {
-        return true
-    }
-    return false
 }
 
 fun BaseFragment.updateToolbar(title: String, hasHomeUp: Boolean) {

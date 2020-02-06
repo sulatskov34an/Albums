@@ -1,12 +1,9 @@
 package ru.sulatskov.main.screen.album
 
-import android.util.Log
 import kotlinx.coroutines.*
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import ru.sulatskov.base.presenter.BasePresenter
-import ru.sulatskov.main.screen.general.GeneralRepository
-import ru.sulatskov.model.network.MainApiService
 import ru.sulatskov.model.network.Photo
 import kotlin.coroutines.CoroutineContext
 
@@ -21,7 +18,7 @@ class AlbumPresenter : BasePresenter<AlbumContractInterface.View>(),
     private val albumRepository : AlbumRepository by inject()
 
     override fun attach(view: AlbumContractInterface.View) {
-        var photos = mutableListOf<Photo>()
+        var photos: MutableList<Photo>
         super.attach(view)
         launch {
             view.showProgress()

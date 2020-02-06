@@ -12,11 +12,8 @@ import ru.sulatskov.common.downloadFile
 import ru.sulatskov.common.toast
 import ru.sulatskov.common.updateToolbar
 import ru.sulatskov.main.MainActivity
-import ru.sulatskov.model.network.MainApiService
 
 class SliderFragment : BaseFragment(), SliderContractInterface.View {
-
-    val mainApiService: MainApiService by inject()
 
     private val photoPresenter: SliderContractInterface.Presenter by inject()
     private var albumId: Int? = 0

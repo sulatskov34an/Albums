@@ -11,13 +11,12 @@ import ru.sulatskov.model.db.AlbumsDataBaseService
 import ru.sulatskov.model.db.entity.AlbumEntity
 import ru.sulatskov.model.network.Album
 import ru.sulatskov.model.network.MainApiService
-import ru.sulatskov.model.network.Photo
 import java.lang.Exception
 
 class GeneralRepository: GeneralContractInterface.Repository, KoinComponent{
 
-    val mainApiService: MainApiService by inject()
-    val dbService: AlbumsDataBaseService by inject()
+    private val mainApiService: MainApiService by inject()
+    private val dbService: AlbumsDataBaseService by inject()
 
 
     override suspend fun getAlbumsRemote(): MutableList<Album> {
