@@ -1,27 +1,28 @@
 package ru.sulatskov.main.screen.album
 
 import android.util.Log
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
+import kotlinx.coroutines.*
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import ru.sulatskov.model.network.MainApiService
 import ru.sulatskov.model.network.Photo
 import java.lang.Exception
+import kotlin.coroutines.CoroutineContext
 
-class AlbumRepository: AlbumContractInterface.Repository, KoinComponent{
+class AlbumRepository : AlbumContractInterface.Repository, KoinComponent, CoroutineScope {
+
     private val mainApiService: MainApiService by inject()
+    private val job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.IO
 
-    override suspend fun getPhotosRemote(albumId: Int?): MutableList<Photo> {
-        var photos = mutableListOf<Photo>()
-        CoroutineScope(Dispatchers.Default).async {
-            try {
-                photos = mainApiService.getPhotosByAlbumId(albumId = albumId).await()
-            } catch (e: Exception) {
-                Log.d("Exception ${javaClass.simpleName}", e.toString())
-            }
-        }.await()
-        return photos
+    override suspend fun getPhotosRemote(albumId: Int?) = withContext(coroutineContext) {
+        try {
+            mainApiService.getPhotosByAlbumId(albumId = albumId).await()
+        } catch (e: Exception) {
+            Log.d("Exception ${javaClass.simpleName}", e.toString())
+            mutableListOf<Photo>()
+        }
     }
+
 }
