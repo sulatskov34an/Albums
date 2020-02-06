@@ -12,6 +12,8 @@
     <string name="error_load_data_label">Ошибка загрузки данных</string>
     <string name="save_success_text">Сохранение фотографии прошло успешно</string>
     <string name="save_fail_text">Фото не удалось сохранить</string>
+    <string name="from_text"> из </string>
+    <string name="one_from_text">1 из </string>
     <string name="main_text">Главная</string>
-    <string name="ambum_text">Альбом</string>
+    <string name="album_text">Альбом</string>
 </resources>

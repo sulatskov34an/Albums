@@ -42,7 +42,7 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
             savePhoto(photoPresenter.getUrl(view.photos_vp.currentItem))
         }
 
-        view.current_photo_tv.setText("1 из $totalCount")
+        view.current_photo_tv.setText("${getString(R.string.one_from_text)} $totalCount")
         view.swipe_container.setOnRefreshListener { (activity as MainActivity).openSliderScreen(albumId, totalCount) }
         view.photos_vp.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
@@ -58,7 +58,7 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
             }
 
             override fun onPageSelected(position: Int) {
-                view.current_photo_tv.setText("${position + 1} из $totalCount")
+                view.current_photo_tv.setText("${position + 1} ${getString(R.string.from_text)} $totalCount")
             }
         })
 
