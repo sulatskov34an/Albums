@@ -18,7 +18,7 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
     private val photoPresenter: SliderContractInterface.Presenter by inject()
     private var albumId: Int? = 0
     private var totalCount: Int? = 0
-    lateinit var sliderAdapter: SlidingImageAdapter
+    lateinit var sliderAdapter: SliderImageAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setRetainInstance(true)
@@ -77,7 +77,7 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
 
     override fun showPhotos(photos: List<String?>) {
         view?.apply {
-            sliderAdapter = SlidingImageAdapter(context, photos)
+            sliderAdapter = SliderImageAdapter(context, photos)
             photos_vp.setAdapter(sliderAdapter)
         }
 

@@ -11,17 +11,16 @@ import kotlinx.android.synthetic.main.item_photo.view.*
 import ru.sulatskov.R
 import ru.sulatskov.common.getProgressBar
 
-class SlidingImageAdapter(context: Context, images: List<String?>) : PagerAdapter() {
+class SliderImageAdapter(context: Context, private val images: List<String?>) : PagerAdapter() {
 
     var inflater: LayoutInflater = LayoutInflater.from(context)
-    var img = images
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         container.removeView(`object` as View)
     }
 
     override fun getCount(): Int {
-        return img.size
+        return images.size
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
@@ -29,7 +28,7 @@ class SlidingImageAdapter(context: Context, images: List<String?>) : PagerAdapte
         val imageView = imageLayout?.findViewById<ImageView>(R.id.photo_iv)
         imageView?.apply {
 
-            val path = img.get(position)
+            val path = images.get(position)
             Picasso.with(context)
                 .load(path)
                 .error(R.drawable.error)

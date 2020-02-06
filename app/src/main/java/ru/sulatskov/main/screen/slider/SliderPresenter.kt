@@ -9,26 +9,24 @@ import kotlin.coroutines.CoroutineContext
 class SliderPresenter : BasePresenter<SliderContractInterface.View>(),
     SliderContractInterface.Presenter, CoroutineScope, KoinComponent {
 
-    private val sliderRepository : SliderRepository by inject()
+    private val job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.IO
+
+    private val sliderRepository: SliderRepository by inject()
     var photos = listOf<String?>()
     override fun attach(view: SliderContractInterface.View) {
         super.attach(view)
 
         launch {
-            CoroutineScope(Dispatchers.IO).async {
-                photos = sliderRepository.getPhotosByAlbumId(view.getAlbumId()).map { photo ->
-                    photo.url
-                }
-                CoroutineScope(Dispatchers.Main).async {
-                    view.showPhotos(photos)
-                }.await()
-            }.await()
+            photos = sliderRepository.getPhotosByAlbumId(view.getAlbumId()).map { photo ->
+                photo.url
+            }
+            launch(Dispatchers.Main) {
+                view.showPhotos(photos)
+            }
         }
     }
 
     override fun getUrl(position: Int) = photos[position]
-
-    private val job = Job()
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Default
 }

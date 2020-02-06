@@ -15,24 +15,24 @@ class AlbumPresenter : BasePresenter<AlbumContractInterface.View>(),
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
 
-    private val albumRepository : AlbumRepository by inject()
+    private val albumRepository: AlbumRepository by inject()
 
     override fun attach(view: AlbumContractInterface.View) {
         var photos: MutableList<Photo>
         super.attach(view)
         launch {
             view.showProgress()
-            CoroutineScope(Dispatchers.Default).async {
+            withContext(Dispatchers.IO){
                 photos = albumRepository.getPhotosRemote(view.getAlbumId())
-                CoroutineScope(Dispatchers.Main).async {
+                launch(Dispatchers.Main) {
                     view.hideProgress()
                     if (photos.isEmpty()) {
                         view.showError()
                     } else {
                         view.showContent(photos)
                     }
-                }.await()
-            }.await()
+                }
+            }
         }
     }
 }
