@@ -25,7 +25,6 @@ class AlbumsAdapter(private val listener: (Album) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         holder.bind(albums[position], listener)
     }
 

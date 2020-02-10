@@ -24,7 +24,7 @@ class SliderImageAdapter(context: Context, private val images: List<String?>) : 
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        var imageLayout = inflater?.inflate(R.layout.slidingimages_layout, container, false)
+        var imageLayout = inflater.inflate(R.layout.slidingimages_layout, container, false)
         val imageView = imageLayout?.findViewById<ImageView>(R.id.photo_iv)
         imageView?.apply {
 

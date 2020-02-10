@@ -22,7 +22,7 @@ class AlbumFragment : BaseFragment(), AlbumContractInterface.View {
     private var albumId: Int? = 0
     private var photosCount: Int? = 0
 
-    var albumAdapter =
+    private var albumAdapter =
         AlbumAdapter { photo -> (activity as? MainActivity)?.openSliderScreen(photo.albumId, photosCount) }
 
 

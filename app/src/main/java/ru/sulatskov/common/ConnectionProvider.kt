@@ -7,7 +7,7 @@ class ConnectionProvider(context: Context): ConnectionProviderInterface{
     var mContext = context
 
     override fun isConnected(): Boolean {
-        var cm = mContext?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val cm = mContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         var wifiInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
         if (wifiInfo != null && wifiInfo.isConnected) {
             return true

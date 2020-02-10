@@ -64,7 +64,7 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
 
     }
 
-    fun savePhoto(path: String?) {
+    private fun savePhoto(path: String?) {
         val result = downloadFile("$path.jpg")
         if (result != -1L) {
             toast(getString(R.string.save_success_text))
@@ -80,7 +80,6 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
             sliderAdapter = SliderImageAdapter(context, photos)
             photos_vp.setAdapter(sliderAdapter)
         }
-
     }
 
     override fun showProgress() {

@@ -16,7 +16,7 @@ import ru.sulatskov.main.MainActivity
 class FiltersFragment : BaseFragment(), FiltersContractInterface.View {
 
     private val filtersPresenter: FiltersContractInterface.Presenter by inject()
-    private var check: String = AppConst.SORT_DEFAULT
+    private var sort: String = AppConst.SORT_DEFAULT
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,17 +36,15 @@ class FiltersFragment : BaseFragment(), FiltersContractInterface.View {
         super.onViewCreated(view, savedInstanceState)
         view.close_iv?.setOnClickListener { (activity as? MainActivity)?.openGeneralScreen(sortBy = AppConst.SORT_DEFAULT) }
         view.sort_rg.check(R.id.default_rb)
-        view.sort_rg.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
-            override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
-                when (checkedId) {
-                    R.id.default_rb -> check = AppConst.SORT_DEFAULT
-                    R.id.name_asc_rb -> check = AppConst.SORT_NAME_ACS
-                    R.id.name_desc_rb -> check = AppConst.SORT_NAME_DECS
-                }
+        view.sort_rg.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.default_rb -> sort = AppConst.SORT_DEFAULT
+                R.id.name_asc_rb -> sort = AppConst.SORT_NAME_ACS
+                R.id.name_desc_rb -> sort = AppConst.SORT_NAME_DECS
             }
-        })
+        }
         view.show_btn?.setOnClickListener {
-            (activity as? MainActivity)?.openGeneralScreen(sortBy = check)
+            (activity as? MainActivity)?.openGeneralScreen(sortBy = sort)
         }
         filtersPresenter.attach(this)
     }
