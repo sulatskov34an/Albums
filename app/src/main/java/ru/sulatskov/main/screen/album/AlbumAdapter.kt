@@ -44,7 +44,7 @@ class AlbumAdapter(private val listener: (Photo) -> Unit) :
         fun bind(photo: Photo, listener: (Photo) -> Unit) {
             itemView.photo_iv?.apply {
                 val path = photo.url
-                Picasso.with(itemView.context)
+                Picasso.get()
                     .load(path)
                     .error(R.drawable.error)
                     .placeholder(getProgressBar(context))

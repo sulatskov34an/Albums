@@ -13,7 +13,7 @@ import ru.sulatskov.common.getProgressBar
 
 class SliderImageAdapter(context: Context, private val images: List<String?>) : PagerAdapter() {
 
-    var inflater: LayoutInflater = LayoutInflater.from(context)
+    private var inflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         container.removeView(`object` as View)
@@ -29,12 +29,11 @@ class SliderImageAdapter(context: Context, private val images: List<String?>) : 
         imageView?.apply {
 
             val path = images.get(position)
-            Picasso.with(context)
+            Picasso.get()
                 .load(path)
                 .error(R.drawable.error)
                 .placeholder(getProgressBar(context))
                 .fit()
-                .centerCrop()
                 .into(photo_iv)
         }
         container.addView(imageLayout, 0)

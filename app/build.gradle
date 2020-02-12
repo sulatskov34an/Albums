@@ -50,7 +50,7 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:29.0.0'
 
     //picasso
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     //PhotoView
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'

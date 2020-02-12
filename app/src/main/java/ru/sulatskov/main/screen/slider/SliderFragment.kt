@@ -1,6 +1,7 @@
 package ru.sulatskov.main.screen.slider
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.viewpager.widget.ViewPager
 import org.koin.android.ext.android.inject
@@ -12,6 +13,7 @@ import ru.sulatskov.common.downloadFile
 import ru.sulatskov.common.toast
 import ru.sulatskov.common.updateToolbar
 import ru.sulatskov.main.MainActivity
+import java.lang.Exception
 
 class SliderFragment : BaseFragment(), SliderContractInterface.View {
 
@@ -43,7 +45,6 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
         }
 
         view.current_photo_tv.setText("${getString(R.string.one_from_text)} $totalCount")
-        view.swipe_container.setOnRefreshListener { (activity as MainActivity).openSliderScreen(albumId, totalCount) }
         view.photos_vp.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
 
@@ -65,11 +66,16 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
     }
 
     private fun savePhoto(path: String?) {
-        val result = downloadFile("$path.jpg")
-        if (result != -1L) {
-            toast(getString(R.string.save_success_text))
-        } else {
-            toast(getString(R.string.save_fail_text))
+        try {
+            val result = downloadFile("$path.jpg")
+            if (result != -1L) {
+                toast(getString(R.string.save_success_text))
+            } else {
+                toast(getString(R.string.save_fail_text))
+            }
+        }catch (e: Exception){
+            e.printStackTrace()
+            toast("Ошибка при сохранении фотографии")
         }
     }
 
