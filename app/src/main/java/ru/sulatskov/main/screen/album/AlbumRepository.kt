@@ -18,7 +18,7 @@ class AlbumRepository : AlbumContractInterface.Repository, KoinComponent, Corout
 
     override suspend fun getPhotosRemote(albumId: Int?) = withContext(coroutineContext) {
         try {
-            mainApiService.getPhotosByAlbumId(albumId = albumId).await()
+            mainApiService.getPhotosByAlbumId(albumId = albumId)
         } catch (e: Exception) {
             Log.d("Exception ${javaClass.simpleName}", e.toString())
             mutableListOf<Photo>()

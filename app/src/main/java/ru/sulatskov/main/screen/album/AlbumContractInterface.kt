@@ -9,7 +9,7 @@ interface AlbumContractInterface {
 
     interface View : BaseViewInterface {
         fun showError()
-        fun showContent(photos: List<Photo>)
+        fun setData(photos: List<Photo>)
         fun getAlbumId(): Int?
     }
 

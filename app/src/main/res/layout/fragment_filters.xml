@@ -14,12 +14,6 @@
         android:orientation="horizontal"
         android:padding="@dimen/padding_item">
 
-        <ImageView
-            android:id="@+id/close_iv"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/ic_close" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top"
-            android:text="Сортировать" />
+            android:text="@string/sort_text" />
 
         <RadioGroup
             android:id="@+id/sort_rg"

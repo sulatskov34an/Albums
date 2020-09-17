@@ -10,10 +10,8 @@ import kotlin.coroutines.CoroutineContext
 class AlbumPresenter : BasePresenter<AlbumContractInterface.View>(),
     AlbumContractInterface.Presenter, CoroutineScope, KoinComponent {
 
-    private val job = Job()
-
     override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Main
+        get() = Job() + Dispatchers.Main
 
     private val albumRepository: AlbumRepository by inject()
 
@@ -29,7 +27,7 @@ class AlbumPresenter : BasePresenter<AlbumContractInterface.View>(),
                     if (photos.isEmpty()) {
                         view.showError()
                     } else {
-                        view.showContent(photos)
+                        view.setData(photos)
                     }
                 }
             }

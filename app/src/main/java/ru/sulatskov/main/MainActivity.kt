@@ -19,15 +19,9 @@ class MainActivity : BaseActivity(), ProgressManager {
         get() = R.layout.activity_main
 
     override fun init(state: Bundle?) {
-        openGeneralScreen(AppConst.SORT_DEFAULT)
-    }
-
-    override fun showProgress() {
-        main_progress.visible()
-    }
-
-    override fun hideProgress() {
-        main_progress.gone()
+        if (supportFragmentManager.backStackEntryCount == 0){
+            openGeneralScreen(AppConst.SORT_DEFAULT)
+        }
     }
 
     fun openGeneralScreen(sortBy: String?) {
@@ -124,9 +118,17 @@ class MainActivity : BaseActivity(), ProgressManager {
 
     private fun toPreviousScreen() {
         if (supportFragmentManager.backStackEntryCount == 1) {
-            finish()
+            return
         } else {
             supportFragmentManager.popBackStack()
         }
+    }
+
+    override fun showProgress() {
+        main_progress.visible()
+    }
+
+    override fun hideProgress() {
+        main_progress.gone()
     }
 }

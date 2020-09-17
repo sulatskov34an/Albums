@@ -48,9 +48,9 @@ class MainApiService {
         .build()
         .create(Api::class.java)
 
-    fun getAlbums(): Deferred<MutableList<Album>> = api.getAlbums()
+    suspend fun getAlbums(): MutableList<Album> = api.getAlbums().await()
 
-    fun getPhotosByAlbumId(albumId: Int?): Deferred<MutableList<Photo>> =
-        api.getPhotosByAlbumId(albumId)
+    suspend fun getPhotosByAlbumId(albumId: Int?): MutableList<Photo> =
+        api.getPhotosByAlbumId(albumId).await()
 
 }

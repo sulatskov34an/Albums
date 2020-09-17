@@ -10,17 +10,19 @@ import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseFragment
 import kotlinx.android.synthetic.main.fragment_filters.view.*
 import ru.sulatskov.common.AppConst
+import ru.sulatskov.common.StringProvider
 import ru.sulatskov.common.updateToolbar
 import ru.sulatskov.main.MainActivity
 
 class FiltersFragment : BaseFragment(), FiltersContractInterface.View {
 
     private val filtersPresenter: FiltersContractInterface.Presenter by inject()
+    private val stringProvider: StringProvider by inject()
     private var sort: String = AppConst.SORT_DEFAULT
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setRetainInstance(true)
+        retainInstance = true
     }
 
     override fun onCreateView(
@@ -34,9 +36,8 @@ class FiltersFragment : BaseFragment(), FiltersContractInterface.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.close_iv?.setOnClickListener { (activity as? MainActivity)?.openGeneralScreen(sortBy = AppConst.SORT_DEFAULT) }
         view.sort_rg.check(R.id.default_rb)
-        view.sort_rg.setOnCheckedChangeListener { group, checkedId ->
+        view.sort_rg.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.default_rb -> sort = AppConst.SORT_DEFAULT
                 R.id.name_asc_rb -> sort = AppConst.SORT_NAME_ACS
@@ -49,15 +50,7 @@ class FiltersFragment : BaseFragment(), FiltersContractInterface.View {
         filtersPresenter.attach(this)
     }
 
-    override fun showProgress() {
-        (activity as? MainActivity)?.showProgress()
-    }
-
-    override fun hideProgress() {
-        (activity as? MainActivity)?.hideProgress()
-    }
-
-    override fun getToolbarTitle() = "Главная"
+    override fun getToolbarTitle() = stringProvider.getToolbarNameMain()
 
     override fun getHasHomeUp() = true
 

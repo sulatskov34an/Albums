@@ -11,14 +11,13 @@ import kotlin.coroutines.CoroutineContext
 
 class SliderRepository : SliderContractInterface.Repository, KoinComponent, CoroutineScope {
 
-    private val job = Job()
     override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.IO
+        get() = Job() + Dispatchers.IO
     private val mainApiService: MainApiService by inject()
 
     override suspend fun getPhotosByAlbumId(albumId: Int) = withContext(coroutineContext) {
         try {
-            mainApiService.getPhotosByAlbumId(albumId).await()
+            mainApiService.getPhotosByAlbumId(albumId)
         } catch (e: Exception) {
             Log.d("Exception ${javaClass.simpleName}", e.toString())
             mutableListOf<Photo>()

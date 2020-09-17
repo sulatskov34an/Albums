@@ -5,11 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import kotlinx.android.synthetic.main.fragment_album.view.*
 import org.koin.android.ext.android.inject
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseFragment
-import kotlinx.android.synthetic.main.fragment_album.view.*
 import ru.sulatskov.common.AppConst
+import ru.sulatskov.common.StringProvider
 import ru.sulatskov.common.toast
 import ru.sulatskov.common.updateToolbar
 import ru.sulatskov.main.MainActivity
@@ -18,17 +19,21 @@ import ru.sulatskov.model.network.Photo
 class AlbumFragment : BaseFragment(), AlbumContractInterface.View {
 
     private val albumPresenter: AlbumContractInterface.Presenter by inject()
+    private val stringProvider: StringProvider by inject()
 
     private var albumId: Int? = 0
     private var photosCount: Int? = 0
-
     private var albumAdapter =
-        AlbumAdapter { photo -> (activity as? MainActivity)?.openSliderScreen(photo.albumId, photosCount) }
-
+        AlbumAdapter { photo ->
+            (activity as? MainActivity)?.openSliderScreen(
+                photo.albumId,
+                photosCount
+            )
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setRetainInstance(true)
+        retainInstance = true
     }
 
     override fun onCreateView(
@@ -45,7 +50,11 @@ class AlbumFragment : BaseFragment(), AlbumContractInterface.View {
         super.onViewCreated(view, savedInstanceState)
         view.photos_rv?.layoutManager = GridLayoutManager(view.context, 2)
         view.photos_rv?.adapter = albumAdapter
-        view.swipe_container.setOnRefreshListener { (activity as? MainActivity)?.openAlbumScreen(albumId) }
+        view.swipe_container.setOnRefreshListener {
+            (activity as? MainActivity)?.openAlbumScreen(
+                albumId
+            )
+        }
         albumPresenter.attach(this)
     }
 
@@ -53,22 +62,14 @@ class AlbumFragment : BaseFragment(), AlbumContractInterface.View {
         toast(getString(R.string.error_load_data_label))
     }
 
-    override fun showContent(photos: List<Photo>) {
+    override fun setData(photos: List<Photo>) {
         photosCount = photos.size
         albumAdapter.setData(photos)
     }
 
     override fun getAlbumId() = albumId
 
-    override fun showProgress() {
-        (activity as? MainActivity)?.showProgress()
-    }
-
-    override fun hideProgress() {
-        (activity as? MainActivity)?.hideProgress()
-    }
-
-    override fun getToolbarTitle() = "Главная"
+    override fun getToolbarTitle() = stringProvider.getToolbarNameAlbum()
 
     override fun getHasHomeUp() = true
 }

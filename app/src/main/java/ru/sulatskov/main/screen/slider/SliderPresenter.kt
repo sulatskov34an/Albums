@@ -23,7 +23,7 @@ class SliderPresenter : BasePresenter<SliderContractInterface.View>(),
                 photo.url
             }
             launch(Dispatchers.Main) {
-                view.showPhotos(photos)
+                view.setData(photos)
             }
         }
     }

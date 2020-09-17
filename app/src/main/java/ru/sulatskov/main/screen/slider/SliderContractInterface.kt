@@ -9,7 +9,7 @@ interface SliderContractInterface {
 
     interface View : BaseViewInterface {
         fun getAlbumId(): Int
-        fun showPhotos(photos: List<String?>)
+        fun setData(photos: List<String?>)
     }
 
     interface Presenter : BasePresenterInterface<View> {

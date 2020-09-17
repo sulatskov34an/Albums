@@ -16,4 +16,6 @@
     <string name="one_from_text">1 из </string>
     <string name="main_text">Главная</string>
     <string name="album_text">Альбом</string>
+    <string name="error_save">Ошибка при сохранении фотографии</string>
+    <string name="sort_text">Сортировать</string>
 </resources>

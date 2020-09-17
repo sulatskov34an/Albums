@@ -24,11 +24,11 @@ class SliderImageAdapter(context: Context, private val images: List<String?>) : 
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        var imageLayout = inflater.inflate(R.layout.slidingimages_layout, container, false)
+        val imageLayout = inflater.inflate(R.layout.slidingimages_layout, container, false)
         val imageView = imageLayout?.findViewById<ImageView>(R.id.photo_iv)
         imageView?.apply {
 
-            val path = images.get(position)
+            val path = images[position]
             Picasso.get()
                 .load(path)
                 .error(R.drawable.error)

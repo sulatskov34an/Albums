@@ -13,15 +13,14 @@ import kotlin.coroutines.CoroutineContext
 class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
     GeneralContractInterface.Presenter, CoroutineScope, KoinComponent {
 
-    private val job = Job()
     override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.IO
+        get() = Job() + Dispatchers.IO
 
     private val prefsService: PrefsService by inject()
     private val connection: ConnectionProvider by inject()
     private val generalRepository: GeneralRepository by inject()
 
-    override fun sortBy(sort: String) {
+    override fun getData(sortBy: String) {
         var albums = mutableListOf<Album>()
         view?.showProgress()
         launch {
@@ -33,7 +32,7 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
 
                 } else {
                     if (prefsService.hasDB) {
-                        albums = generalRepository.getAlbumsDB()
+                        albums = generalRepository.getAlbumsFromCache()
                     }
                 }
             }
@@ -42,15 +41,25 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
                 if (albums.isEmpty()) {
                     view?.showError()
                 } else {
-                    when (sort) {
-                        AppConst.SORT_DEFAULT -> view?.showContent(albums)
-                        AppConst.SORT_NAME_ACS -> view?.showContent(albums.sortedBy { it.title })
-                        AppConst.SORT_NAME_DECS -> view?.showContent(albums.sortedByDescending { it.title })
-                        else -> view?.showContent(albums)
+                    when (sortBy) {
+                        AppConst.SORT_DEFAULT -> view?.setData(albums)
+                        AppConst.SORT_NAME_ACS -> view?.setData(albums.sortedBy { it.title })
+                        AppConst.SORT_NAME_DECS -> view?.setData(albums.sortedByDescending { it.title })
+                        else -> view?.setData(albums)
                     }
 
                 }
             }
         }
+    }
+
+    override fun onTextChanged(list: MutableList<Album>, s: CharSequence?) {
+        val sortedList = mutableListOf<Album>()
+        for (item in list)
+            item.title?.let {
+                if (it.contains(s.toString()))
+                    sortedList.add(item)
+            }
+        view?.setData(sortedList)
     }
 }

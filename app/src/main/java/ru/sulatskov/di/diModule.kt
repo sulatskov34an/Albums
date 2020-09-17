@@ -1,7 +1,9 @@
-package ru.sulatskov.common
+package ru.sulatskov.di
 
 import android.content.Context
 import org.koin.dsl.module
+import ru.sulatskov.common.ConnectionProvider
+import ru.sulatskov.common.StringProvider
 import ru.sulatskov.main.screen.filters.FiltersContractInterface
 import ru.sulatskov.main.screen.filters.FiltersPresenter
 import ru.sulatskov.main.screen.general.GeneralContractInterface
@@ -40,5 +42,7 @@ fun mainModule(context: Context) = module {
     single { GeneralRepository() }
 
     single { SliderRepository() }
+
+    single { StringProvider(context) }
 
 }

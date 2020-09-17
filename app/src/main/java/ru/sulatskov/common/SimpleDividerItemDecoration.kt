@@ -10,7 +10,7 @@ class SimpleDividerItemDecoration(context: Context?) : RecyclerView.ItemDecorati
     private lateinit var mDivider: Drawable
 
     init {
-        if (context != null) {
+        context?.let {
             mDivider = context.getDrawable(R.drawable.items_divider)!!
         }
     }

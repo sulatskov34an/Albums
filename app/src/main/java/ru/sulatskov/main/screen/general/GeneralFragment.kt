@@ -21,13 +21,14 @@ import ru.sulatskov.common.*
 class GeneralFragment : BaseFragment(), GeneralContractInterface.View, TextWatcher {
 
     private val generalPresenter: GeneralContractInterface.Presenter by inject()
+    private val stringProvider: StringProvider by inject()
     private var sortBy: String? = AppConst.SORT_DEFAULT
     private var albumsAdapter =
         AlbumsAdapter { album: Album -> (activity as? MainActivity)?.openAlbumScreen(albumId = album.id) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setRetainInstance(true)
+        retainInstance = true
     }
 
     override fun onCreateView(
@@ -53,14 +54,14 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View, TextWatch
         }
         view.filter_search_et.addTextChangedListener(this)
         view.apply {
-            (activity as? MainActivity)?.getWindow()
-                ?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            (activity as? MainActivity)?.window
+                ?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
         }
         generalPresenter.attach(this)
         when (sortBy) {
-            AppConst.SORT_DEFAULT -> generalPresenter.sortBy(AppConst.SORT_DEFAULT)
-            AppConst.SORT_NAME_ACS -> generalPresenter.sortBy(AppConst.SORT_NAME_ACS)
-            AppConst.SORT_NAME_DECS -> generalPresenter.sortBy(AppConst.SORT_NAME_DECS)
+            AppConst.SORT_DEFAULT -> generalPresenter.getData(AppConst.SORT_DEFAULT)
+            AppConst.SORT_NAME_ACS -> generalPresenter.getData(AppConst.SORT_NAME_ACS)
+            AppConst.SORT_NAME_DECS -> generalPresenter.getData(AppConst.SORT_NAME_DECS)
         }
     }
 
@@ -68,19 +69,11 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View, TextWatch
         toast(getString(R.string.error_load_data_label))
     }
 
-    override fun showContent(albums: List<Album>) {
+    override fun setData(albums: List<Album>) {
         albumsAdapter.setData(albums)
     }
 
-    override fun showProgress() {
-        (activity as? MainActivity)?.showProgress()
-    }
-
-    override fun hideProgress() {
-        (activity as? MainActivity)?.hideProgress()
-    }
-
-    override fun getToolbarTitle() = "Главная"
+    override fun getToolbarTitle() = stringProvider.getToolbarNameMain()
 
     override fun getHasHomeUp() = false
 
@@ -94,16 +87,10 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View, TextWatch
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         launch {
             delay(1000)
-            val list = albumsAdapter.getList()
-            val sortedList = mutableListOf<Album>()
-            for (item in list)
-                if (item.title?.contains(s.toString()) == true) {
-                    sortedList.add(item)
-                }
-            albumsAdapter.setData(sortedList)
+            generalPresenter.onTextChanged(albumsAdapter.getList(), s)
         }
         if (s.isNullOrEmpty()) {
-            generalPresenter.sortBy(AppConst.SORT_DEFAULT)
+            generalPresenter.getData(AppConst.SORT_DEFAULT)
         }
     }
 

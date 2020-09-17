@@ -43,30 +43,20 @@ fun BaseFragment.updateToolbar(title: String, hasHomeUp: Boolean) {
 fun BaseFragment.downloadFile(url: String?, relativePath: String = "/albums/"): Long? {
     val uri = android.net.Uri.parse(url)
 
-    // Create request for android download manager
     activity?.apply {
-        val downloadManager = getSystemService(android.app.Service.DOWNLOAD_SERVICE) as DownloadManager?
-        val request = android.app.DownloadManager.Request(uri)
-
-        //Setting title of request
+        val downloadManager =
+            getSystemService(android.app.Service.DOWNLOAD_SERVICE) as DownloadManager?
+        val request = DownloadManager.Request(uri)
         request.setTitle(uri.lastPathSegment)
-
-        //Setting description of request
         request.setDescription(uri.path)
-
-        //Set the local destination for the downloaded file to a path within the application's external files directory
         request.setDestinationInExternalFilesDir(
             this,
             android.os.Environment.DIRECTORY_DOWNLOADS + relativePath,
             uri.lastPathSegment
         )
-
-        request.setAllowedNetworkTypes(android.app.DownloadManager.Request.NETWORK_WIFI or android.app.DownloadManager.Request.NETWORK_MOBILE)
-        request.setNotificationVisibility(android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-
-        //Enqueue download and save into referenceId
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
         return downloadManager?.enqueue(request)
     }
-
     return -1
 }

@@ -15,21 +15,20 @@ class GeneralRepository : GeneralContractInterface.Repository, KoinComponent, Co
 
     private val mainApiService: MainApiService by inject()
     private val dbService: AlbumsDataBaseService by inject()
-    private val job = Job()
     override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.IO
+        get() = Job() + Dispatchers.IO
 
 
     override suspend fun getAlbumsRemote(): MutableList<Album> = withContext(coroutineContext) {
         try {
-            mainApiService.getAlbums().await()
+            mainApiService.getAlbums()
         } catch (e: Exception) {
             Log.d("Exception ${javaClass.simpleName}", e.toString())
             mutableListOf<Album>()
         }
     }
 
-    override suspend fun getAlbumsDB(): MutableList<Album> = withContext(coroutineContext) {
+    override suspend fun getAlbumsFromCache(): MutableList<Album> = withContext(coroutineContext) {
         try {
             dbService.getAllAlbums().map { album ->
                 Album(

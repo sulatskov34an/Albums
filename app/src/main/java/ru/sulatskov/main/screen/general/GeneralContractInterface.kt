@@ -9,16 +9,17 @@ interface GeneralContractInterface {
 
     interface View : BaseViewInterface {
         fun showError()
-        fun showContent(albums: List<Album>)
+        fun setData(albums: List<Album>)
     }
 
     interface Presenter : BasePresenterInterface<View> {
-        fun sortBy(sort: String)
+        fun getData(sortBy: String)
+        fun onTextChanged(list: MutableList<Album>, s: CharSequence?)
     }
 
     interface Repository : BaseRepositoryInterface {
         suspend fun getAlbumsRemote(): MutableList<Album>
-        suspend fun getAlbumsDB(): MutableList<Album>
+        suspend fun getAlbumsFromCache(): MutableList<Album>
         fun insertAlbums(albums: MutableList<Album>)
     }
 }

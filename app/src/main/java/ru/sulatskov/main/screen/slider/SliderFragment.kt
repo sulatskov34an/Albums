@@ -8,22 +8,20 @@ import org.koin.android.ext.android.inject
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseFragment
 import kotlinx.android.synthetic.main.fragment_slider.view.*
-import ru.sulatskov.common.AppConst
-import ru.sulatskov.common.downloadFile
-import ru.sulatskov.common.toast
-import ru.sulatskov.common.updateToolbar
+import ru.sulatskov.common.*
 import ru.sulatskov.main.MainActivity
 import java.lang.Exception
 
 class SliderFragment : BaseFragment(), SliderContractInterface.View {
 
     private val photoPresenter: SliderContractInterface.Presenter by inject()
+    private val stringProvider: StringProvider by inject()
     private var albumId: Int? = 0
     private var totalCount: Int? = 0
-    lateinit var sliderAdapter: SliderImageAdapter
+    private lateinit var sliderAdapter: SliderImageAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setRetainInstance(true)
+        retainInstance = true
     }
 
     override fun onCreateView(
@@ -44,7 +42,8 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
             savePhoto(photoPresenter.getUrl(view.photos_vp.currentItem))
         }
 
-        view.current_photo_tv.setText("${getString(R.string.one_from_text)} $totalCount")
+        view.current_photo_tv.text =
+            String.format("%s %d", getString(R.string.one_from_text), totalCount)
         view.photos_vp.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
 
@@ -59,7 +58,12 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
             }
 
             override fun onPageSelected(position: Int) {
-                view.current_photo_tv.setText("${position + 1} ${getString(R.string.from_text)} $totalCount")
+                view.current_photo_tv.text = String.format(
+                    "%d %s %d",
+                    position + 1,
+                    getString(R.string.from_text),
+                    totalCount
+                )
             }
         })
 
@@ -73,30 +77,22 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
             } else {
                 toast(getString(R.string.save_fail_text))
             }
-        }catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
-            toast("Ошибка при сохранении фотографии")
+            toast(getString(R.string.error_save))
         }
     }
 
     override fun getAlbumId(): Int = albumId ?: 0
 
-    override fun showPhotos(photos: List<String?>) {
+    override fun setData(photos: List<String?>) {
         view?.apply {
             sliderAdapter = SliderImageAdapter(context, photos)
-            photos_vp.setAdapter(sliderAdapter)
+            photos_vp.adapter = sliderAdapter
         }
     }
 
-    override fun showProgress() {
-        (activity as? MainActivity)?.showProgress()
-    }
-
-    override fun hideProgress() {
-        (activity as? MainActivity)?.hideProgress()
-    }
-
-    override fun getToolbarTitle() = "Альбом"
+    override fun getToolbarTitle() = stringProvider.getToolbarNameAlbum()
 
     override fun getHasHomeUp() = true
 }

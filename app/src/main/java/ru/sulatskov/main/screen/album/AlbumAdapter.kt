@@ -27,7 +27,6 @@ class AlbumAdapter(private val listener: (Photo) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         holder.bind(photos[position], listener)
     }
 
@@ -40,7 +39,6 @@ class AlbumAdapter(private val listener: (Photo) -> Unit) :
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
         fun bind(photo: Photo, listener: (Photo) -> Unit) {
             itemView.photo_iv?.apply {
                 val path = photo.url
