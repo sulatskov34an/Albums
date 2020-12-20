@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioGroup
+import kotlinx.android.synthetic.main.fragment_filters.*
+import kotlinx.android.synthetic.main.fragment_filters.view.*
 import org.koin.android.ext.android.inject
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseFragment
-import kotlinx.android.synthetic.main.fragment_filters.view.*
 import ru.sulatskov.common.AppConst
 import ru.sulatskov.common.StringProvider
-import ru.sulatskov.common.updateToolbar
 import ru.sulatskov.main.MainActivity
 
 class FiltersFragment : BaseFragment(), FiltersContractInterface.View {
@@ -30,7 +29,6 @@ class FiltersFragment : BaseFragment(), FiltersContractInterface.View {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        updateToolbar(getToolbarTitle(), getHasHomeUp())
         return inflater.inflate(R.layout.fragment_filters, container, false)
     }
 
@@ -50,8 +48,8 @@ class FiltersFragment : BaseFragment(), FiltersContractInterface.View {
         filtersPresenter.attach(this)
     }
 
-    override fun getToolbarTitle() = stringProvider.getToolbarNameMain()
-
-    override fun getHasHomeUp() = true
+    override fun initToolbar() {
+        view?.toolbar_title?.text = stringProvider.getToolbarNameMain()
+    }
 
 }

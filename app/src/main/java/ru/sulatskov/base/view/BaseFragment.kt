@@ -23,8 +23,4 @@ abstract class BaseFragment : Fragment(), CoroutineScope, BaseViewInterface {
     override fun hideProgress() {
         (activity as? MainActivity)?.hideProgress()
     }
-
-    abstract override fun getToolbarTitle(): String
-
-    abstract override fun getHasHomeUp(): Boolean
 }

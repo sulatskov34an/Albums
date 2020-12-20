@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_album.view.*
+import kotlinx.android.synthetic.main.fragment_slider.*
 import org.koin.android.ext.android.inject
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseFragment
 import ru.sulatskov.common.AppConst
 import ru.sulatskov.common.StringProvider
 import ru.sulatskov.common.toast
-import ru.sulatskov.common.updateToolbar
 import ru.sulatskov.main.MainActivity
 import ru.sulatskov.model.network.Photo
 
@@ -42,7 +42,6 @@ class AlbumFragment : BaseFragment(), AlbumContractInterface.View {
         savedInstanceState: Bundle?
     ): View? {
         albumId = arguments?.getInt(AppConst.ID_ALBUM_KEY, 0)
-        updateToolbar(getToolbarTitle(), getHasHomeUp())
         return inflater.inflate(R.layout.fragment_album, container, false)
     }
 
@@ -68,8 +67,10 @@ class AlbumFragment : BaseFragment(), AlbumContractInterface.View {
     }
 
     override fun getAlbumId() = albumId
-
-    override fun getToolbarTitle() = stringProvider.getToolbarNameAlbum()
-
-    override fun getHasHomeUp() = true
+    override fun initToolbar() {
+        view?.toolbar_title?.text = stringProvider.getToolbarNameAlbum()
+        view?.toolbar?.setNavigationOnClickListener {
+            activity?.onBackPressed()
+        }
+    }
 }

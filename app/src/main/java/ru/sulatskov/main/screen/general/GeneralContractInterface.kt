@@ -10,11 +10,13 @@ interface GeneralContractInterface {
     interface View : BaseViewInterface {
         fun showError()
         fun setData(albums: List<Album>)
+        fun openAlbum(id: Int?)
     }
 
     interface Presenter : BasePresenterInterface<View> {
         fun getData(sortBy: String)
         fun onTextChanged(list: MutableList<Album>, s: CharSequence?)
+        fun onAlbumClick(id: Int?)
     }
 
     interface Repository : BaseRepositoryInterface {

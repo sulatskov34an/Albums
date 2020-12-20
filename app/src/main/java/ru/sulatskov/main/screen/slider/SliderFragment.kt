@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.viewpager.widget.ViewPager
+import kotlinx.android.synthetic.main.fragment_filters.*
 import org.koin.android.ext.android.inject
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseFragment
@@ -31,7 +32,6 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
     ): View? {
         albumId = arguments?.getInt(AppConst.ID_ALBUM_KEY, 0)
         totalCount = arguments?.getInt(AppConst.PHOTOS_COUNT_KEY, 0)
-        updateToolbar(getToolbarTitle(), getHasHomeUp())
         return inflater.inflate(R.layout.fragment_slider, container, false)
     }
 
@@ -92,7 +92,7 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
         }
     }
 
-    override fun getToolbarTitle() = stringProvider.getToolbarNameAlbum()
-
-    override fun getHasHomeUp() = true
+    override fun initToolbar() {
+        toolbar_title.text = stringProvider.getToolbarNameAlbum()
+    }
 }

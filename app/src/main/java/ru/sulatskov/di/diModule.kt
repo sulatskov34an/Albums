@@ -4,8 +4,6 @@ import android.content.Context
 import org.koin.dsl.module
 import ru.sulatskov.common.ConnectionProvider
 import ru.sulatskov.common.StringProvider
-import ru.sulatskov.main.screen.filters.FiltersContractInterface
-import ru.sulatskov.main.screen.filters.FiltersPresenter
 import ru.sulatskov.main.screen.general.GeneralContractInterface
 import ru.sulatskov.main.screen.general.GeneralPresenter
 import ru.sulatskov.main.screen.slider.SliderContractInterface
@@ -21,13 +19,11 @@ import ru.sulatskov.model.prefs.PrefsService
 
 fun mainModule(context: Context) = module {
 
-    factory <GeneralContractInterface.Presenter> { GeneralPresenter( ) }
+    single <GeneralContractInterface.Presenter> { GeneralPresenter( ) }
 
-    factory <AlbumContractInterface.Presenter> { AlbumPresenter() }
+    single <AlbumContractInterface.Presenter> { AlbumPresenter() }
 
-    factory <SliderContractInterface.Presenter> { SliderPresenter() }
-
-    factory <FiltersContractInterface.Presenter> { FiltersPresenter() }
+    single <SliderContractInterface.Presenter> { SliderPresenter() }
 
     single { PrefsService(context) }
 

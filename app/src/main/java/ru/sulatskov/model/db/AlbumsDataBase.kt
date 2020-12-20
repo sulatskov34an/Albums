@@ -14,7 +14,7 @@ abstract class AlbumsDataBase : RoomDatabase() {
     abstract fun albumDao(): AlbumDao
 
     companion object {
-        var sInstance: AlbumsDataBase? = null
+        lateinit var sInstance: AlbumsDataBase
 
         @Synchronized
         fun getInstance(context: Context): AlbumsDataBase {
@@ -26,7 +26,7 @@ abstract class AlbumsDataBase : RoomDatabase() {
                         "albumsDB"
                     ).build()
             }
-            return sInstance!!
+            return sInstance
         }
     }
 }
