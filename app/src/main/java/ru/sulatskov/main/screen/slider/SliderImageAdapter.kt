@@ -4,43 +4,51 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.viewpager.widget.PagerAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.item_album.view.*
 import kotlinx.android.synthetic.main.item_photo.view.*
 import ru.sulatskov.R
 import ru.sulatskov.common.getProgressBar
 
-class SliderImageAdapter(context: Context, private val images: List<String?>) : PagerAdapter() {
+class SliderImageAdapter(private val context: Context) : RecyclerView.Adapter<SliderImageAdapter.ViewHolder>() {
 
-    private var inflater: LayoutInflater = LayoutInflater.from(context)
+    private val images: MutableList<String?> = mutableListOf()
 
-    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        container.removeView(`object` as View)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
+        return ViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_photo_full,
+                parent,
+                false
+            )
+        )
     }
 
-    override fun getCount(): Int {
-        return images.size
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(images[position], context)
     }
 
-    override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val imageLayout = inflater.inflate(R.layout.slidingimages_layout, container, false)
-        val imageView = imageLayout?.findViewById<ImageView>(R.id.photo_iv)
-        imageView?.apply {
+    override fun getItemCount() = images.size
 
-            val path = images[position]
-            Picasso.get()
-                .load(path)
-                .error(R.drawable.error)
-                .placeholder(getProgressBar(context))
-                .fit()
-                .into(photo_iv)
+    fun setData(items: List<String?>) {
+        images.clear()
+        images.addAll(items)
+        notifyDataSetChanged()
+    }
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        fun bind(path: String?, context: Context) {
+            itemView.photo_iv?.let {
+                Picasso.get()
+                    .load(path)
+                    .error(R.drawable.error)
+                    .placeholder(getProgressBar(context))
+                    .fit()
+                    .into(it)
+            }
         }
-        container.addView(imageLayout, 0)
-        return imageLayout
-    }
-
-    override fun isViewFromObject(view: View, `object`: Any): Boolean {
-        return view.equals(`object`)
     }
 }

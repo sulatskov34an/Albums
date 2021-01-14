@@ -62,4 +62,8 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
             }
         view?.setData(sortedList)
     }
+
+    override fun onAlbumClick(id: Int?) {
+        view?.openAlbum(id)
+    }
 }

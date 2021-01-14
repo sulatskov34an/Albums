@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_filters.*
 import org.koin.android.ext.android.inject
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseFragment
@@ -24,7 +25,7 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View, TextWatch
     private val stringProvider: StringProvider by inject()
     private var sortBy: String? = AppConst.SORT_DEFAULT
     private var albumsAdapter =
-        AlbumsAdapter { album: Album -> (activity as? MainActivity)?.openAlbumScreen(albumId = album.id) }
+        AlbumsAdapter { album: Album -> generalPresenter.onAlbumClick(album.id) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +38,6 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View, TextWatch
         savedInstanceState: Bundle?
     ): View? {
         sortBy = arguments?.getString(AppConst.SORT_KEY, AppConst.SORT_DEFAULT)
-        updateToolbar(getToolbarTitle(), getHasHomeUp())
         return inflater.inflate(R.layout.fragment_general, container, false)
     }
 
@@ -73,9 +73,13 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View, TextWatch
         albumsAdapter.setData(albums)
     }
 
-    override fun getToolbarTitle() = stringProvider.getToolbarNameMain()
+    override fun openAlbum(id: Int?) {
+        (activity as? MainActivity)?.openAlbumScreen(albumId = id)
+    }
 
-    override fun getHasHomeUp() = false
+    override fun initToolbar() {
+        toolbar_title?.text = stringProvider.getToolbarNameMain()
+    }
 
     override fun afterTextChanged(s: Editable?) {
 

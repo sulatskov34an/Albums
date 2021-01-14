@@ -1,16 +1,17 @@
 package ru.sulatskov.main.screen.slider
 
 import android.os.Bundle
-import android.util.Log
-import android.view.*
-import androidx.viewpager.widget.ViewPager
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_filters.*
+import kotlinx.android.synthetic.main.fragment_slider.view.*
 import org.koin.android.ext.android.inject
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseFragment
-import kotlinx.android.synthetic.main.fragment_slider.view.*
 import ru.sulatskov.common.*
-import ru.sulatskov.main.MainActivity
-import java.lang.Exception
+
 
 class SliderFragment : BaseFragment(), SliderContractInterface.View {
 
@@ -31,41 +32,25 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
     ): View? {
         albumId = arguments?.getInt(AppConst.ID_ALBUM_KEY, 0)
         totalCount = arguments?.getInt(AppConst.PHOTOS_COUNT_KEY, 0)
-        updateToolbar(getToolbarTitle(), getHasHomeUp())
         return inflater.inflate(R.layout.fragment_slider, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         photoPresenter.attach(this)
+        initToolbar()
         view.save_btn?.setOnClickListener {
-            savePhoto(photoPresenter.getUrl(view.photos_vp.currentItem))
+            val layoutManager = view.photos_rv.layoutManager as LinearLayoutManager
+            val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
+            savePhoto(photoPresenter.getUrl(firstVisiblePosition))
         }
 
-        view.current_photo_tv.text =
-            String.format("%s %d", getString(R.string.one_from_text), totalCount)
-        view.photos_vp.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {
-
-            }
-
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-
-            }
-
-            override fun onPageSelected(position: Int) {
-                view.current_photo_tv.text = String.format(
-                    "%d %s %d",
-                    position + 1,
-                    getString(R.string.from_text),
-                    totalCount
-                )
-            }
-        })
+        view.photos_rv?.layoutManager = LinearLayoutManager(
+            view.context,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+        view.photos_rv.addItemDecoration(SliderItemDecorator(context))
 
     }
 
@@ -87,12 +72,16 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
 
     override fun setData(photos: List<String?>) {
         view?.apply {
-            sliderAdapter = SliderImageAdapter(context, photos)
-            photos_vp.adapter = sliderAdapter
+            sliderAdapter = SliderImageAdapter(context)
+            photos_rv.adapter = sliderAdapter
+            sliderAdapter.setData(photos.takeLast(10))
         }
     }
 
-    override fun getToolbarTitle() = stringProvider.getToolbarNameAlbum()
-
-    override fun getHasHomeUp() = true
+    override fun initToolbar() {
+        toolbar_title.text = stringProvider.getToolbarNamePhotos()
+        toolbar.setNavigationOnClickListener {
+            activity?.onBackPressed()
+        }
+    }
 }

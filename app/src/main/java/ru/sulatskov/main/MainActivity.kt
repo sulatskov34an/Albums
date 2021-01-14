@@ -91,39 +91,6 @@ class MainActivity : BaseActivity(), ProgressManager {
         }
     }
 
-    override fun onBackPressed() {
-        toPreviousScreen()
-    }
-
-    fun updateToolbar(title: String, isClickable: Boolean) {
-        toolbar?.apply {
-            btn_up.setOnClickListener(null)
-            btn_up.gone()
-
-            if (isClickable) {
-                btn_up.setOnClickListener {
-                    toPreviousScreen()
-                }
-
-                toolbar_title.setOnClickListener {
-                    toPreviousScreen()
-                }
-
-                btn_up.visible()
-            }
-
-            toolbar_title.text = title
-        }
-    }
-
-    private fun toPreviousScreen() {
-        if (supportFragmentManager.backStackEntryCount == 1) {
-            return
-        } else {
-            supportFragmentManager.popBackStack()
-        }
-    }
-
     override fun showProgress() {
         main_progress.visible()
     }

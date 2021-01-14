@@ -8,10 +8,7 @@ import ru.sulatskov.model.network.Photo
 import kotlin.coroutines.CoroutineContext
 
 class AlbumPresenter : BasePresenter<AlbumContractInterface.View>(),
-    AlbumContractInterface.Presenter, CoroutineScope, KoinComponent {
-
-    override val coroutineContext: CoroutineContext
-        get() = Job() + Dispatchers.Main
+    AlbumContractInterface.Presenter, KoinComponent {
 
     private val albumRepository: AlbumRepository by inject()
 

@@ -36,10 +36,6 @@ fun getProgressBar(context: Context): CircularProgressDrawable {
     return circularProgressDrawable
 }
 
-fun BaseFragment.updateToolbar(title: String, hasHomeUp: Boolean) {
-    (activity as? MainActivity)?.updateToolbar(title, hasHomeUp)
-}
-
 fun BaseFragment.downloadFile(url: String?, relativePath: String = "/albums/"): Long? {
     val uri = android.net.Uri.parse(url)
 
