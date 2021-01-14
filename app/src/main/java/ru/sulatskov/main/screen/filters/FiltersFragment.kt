@@ -49,7 +49,10 @@ class FiltersFragment : BaseFragment(), FiltersContractInterface.View {
     }
 
     override fun initToolbar() {
-        view?.toolbar_title?.text = stringProvider.getToolbarNameMain()
+        view?.toolbar_title?.text = stringProvider.getToolbarNameFilter()
+        toolbar.setNavigationOnClickListener {
+            activity?.onBackPressed()
+        }
     }
 
 }

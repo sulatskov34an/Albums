@@ -11,6 +11,8 @@ import ru.sulatskov.main.screen.slider.SliderPresenter
 import ru.sulatskov.main.screen.album.AlbumContractInterface
 import ru.sulatskov.main.screen.album.AlbumPresenter
 import ru.sulatskov.main.screen.album.AlbumRepository
+import ru.sulatskov.main.screen.filters.FiltersContractInterface
+import ru.sulatskov.main.screen.filters.FiltersPresenter
 import ru.sulatskov.main.screen.general.GeneralRepository
 import ru.sulatskov.main.screen.slider.SliderRepository
 import ru.sulatskov.model.db.AlbumsDataBaseService
@@ -20,6 +22,8 @@ import ru.sulatskov.model.prefs.PrefsService
 fun mainModule(context: Context) = module {
 
     single <GeneralContractInterface.Presenter> { GeneralPresenter( ) }
+
+    single <FiltersContractInterface.Presenter> { FiltersPresenter( ) }
 
     single <AlbumContractInterface.Presenter> { AlbumPresenter() }
 

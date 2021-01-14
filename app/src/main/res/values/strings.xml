@@ -18,4 +18,6 @@
     <string name="album_text">Альбом</string>
     <string name="error_save">Ошибка при сохранении фотографии</string>
     <string name="sort_text">Сортировать</string>
+    <string name="filters">Фильтр</string>
+    <string name="photos">Фото</string>
 </resources>

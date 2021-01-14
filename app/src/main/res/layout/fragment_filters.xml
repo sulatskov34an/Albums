@@ -11,8 +11,6 @@
         android:layout_height="wrap_content"
         android:background="@color/color_toolbar"
         android:elevation="1dp"
-        android:paddingStart="25dp"
-        android:paddingEnd="16dp"
         app:navigationIcon="@drawable/ic_arrow">
 
         <TextView

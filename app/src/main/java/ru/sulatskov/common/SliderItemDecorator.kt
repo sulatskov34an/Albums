@@ -14,37 +14,17 @@ import androidx.recyclerview.widget.RecyclerView
 import java.lang.Integer.max
 
 class SliderItemDecorator(val context: Context?) : RecyclerView.ItemDecoration() {
-    private val colorActive = Color.parseColor("#C42C2E")
+    private val colorActive = Color.parseColor("#008577")
     private val colorInactive = Color.parseColor("#DADADA")
 
     fun dpToPx(dp: Int): Int {
         val metrics: DisplayMetrics? = context?.resources?.displayMetrics
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), metrics).toInt()
     }
-
-    /**
-     * Height of the space the indicator takes up at the bottom of the view.
-     */
     private val mIndicatorHeight = dpToPx(32)
-
-    /**
-     * Indicator stroke width.
-     */
     private val mIndicatorStrokeWidth = dpToPx(4)
-
-    /**
-     * Indicator width.
-     */
     private val mIndicatorItemLength = dpToPx(4)
-
-    /**
-     * Padding between indicators.
-     */
     private val mIndicatorItemPadding = dpToPx(10)
-
-    /**
-     * Some more natural animation interpolation
-     */
     private val mInterpolator: AccelerateDecelerateInterpolator = AccelerateDecelerateInterpolator()
 
     private val mPaint: Paint = Paint()
@@ -60,33 +40,28 @@ class SliderItemDecorator(val context: Context?) : RecyclerView.ItemDecoration()
         super.onDrawOver(c, parent, state)
         val itemCount = parent.adapter?.itemCount ?: 0
 
-        // center horizontally, calculate width and subtract half from center
         val totalLength = mIndicatorItemLength * itemCount
         val paddingBetweenItems = max(0, itemCount - 1) * mIndicatorItemPadding
         val indicatorTotalWidth = totalLength + paddingBetweenItems
         val indicatorStartX = (parent.width - indicatorTotalWidth) / 2f
 
-        // center vertically in the allotted space
         val indicatorPosY = parent.height - mIndicatorHeight / 2f
         drawInactiveIndicators(c, indicatorStartX, indicatorPosY, itemCount)
 
-        // find active page (which should be highlighted)
         val layoutManager = parent.layoutManager as LinearLayoutManager
         val activePosition = layoutManager.findFirstVisibleItemPosition()
         if (activePosition == RecyclerView.NO_POSITION) {
             return
         }
-
-        // find offset of active page (if the user is scrolling)
         val activeChild = layoutManager.findViewByPosition(activePosition)
-        val left = activeChild!!.left
-        val width = activeChild.width
-        val right = activeChild.right
+        val left = activeChild?.left
+        val width = activeChild?.width
+        val right = activeChild?.right
 
-        // on swipe the active item will be positioned from [-width, 0]
-        // interpolate offset for smooth animation
-        val progress: Float = mInterpolator.getInterpolation(left * -1 / width.toFloat())
-        drawHighlights(c, indicatorStartX, indicatorPosY, activePosition, progress)
+        val progress: Float? = width?.let {
+            mInterpolator.getInterpolation((left?.times(-1) ?: 0) / it.toFloat())
+        }
+        progress?.let { drawHighlights(c, indicatorStartX, indicatorPosY, activePosition, it) }
     }
 
     private fun drawInactiveIndicators(
@@ -96,8 +71,6 @@ class SliderItemDecorator(val context: Context?) : RecyclerView.ItemDecoration()
         itemCount: Int
     ) {
         mPaint.color = colorInactive
-
-        // width of item indicator including padding
         val itemWidth = mIndicatorItemLength + mIndicatorItemPadding
         var start = indicatorStartX
         for (i in 0 until itemCount) {
@@ -111,16 +84,12 @@ class SliderItemDecorator(val context: Context?) : RecyclerView.ItemDecoration()
         highlightPosition: Int, progress: Float
     ) {
         mPaint.color = colorActive
-
-        // width of item indicator including padding
         val itemWidth = mIndicatorItemLength + mIndicatorItemPadding
         if (progress == 0f) {
-            // no swipe, draw a normal indicator
             val highlightStart = indicatorStartX + itemWidth * highlightPosition
             c.drawCircle(highlightStart, indicatorPosY, mIndicatorItemLength / 2f, mPaint)
         } else {
             val highlightStart = indicatorStartX + itemWidth * highlightPosition
-            // calculate partial highlight
             val partialLength = mIndicatorItemLength * progress + mIndicatorItemPadding * progress
             c.drawCircle(
                 highlightStart + partialLength,

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -11,7 +12,6 @@
         android:layout_height="wrap_content"
         android:background="@color/color_toolbar"
         android:elevation="1dp"
-        android:paddingStart="25dp"
         app:navigationIcon="@drawable/ic_arrow"
         android:paddingEnd="16dp">
 
@@ -19,7 +19,7 @@
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/main_text"
+            tools:text="@string/album_text"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp" />
 

@@ -38,8 +38,6 @@ class SliderImageAdapter(private val context: Context) : RecyclerView.Adapter<Sl
         notifyDataSetChanged()
     }
 
-    fun getList() = images
-
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(path: String?, context: Context) {

@@ -1,5 +1,7 @@
 package ru.sulatskov.base.view
 
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,6 +17,11 @@ abstract class BaseFragment : Fragment(), CoroutineScope, BaseViewInterface {
     private val job = Job()
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initToolbar()
+        super.onViewCreated(view, savedInstanceState)
+    }
 
     override fun showProgress() {
         (activity as? MainActivity)?.showProgress()

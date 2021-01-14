@@ -78,7 +78,7 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View, TextWatch
     }
 
     override fun initToolbar() {
-        toolbar_title.text = stringProvider.getToolbarNameMain()
+        toolbar_title?.text = stringProvider.getToolbarNameMain()
     }
 
     override fun afterTextChanged(s: Editable?) {

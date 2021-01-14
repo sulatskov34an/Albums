@@ -38,6 +38,7 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         photoPresenter.attach(this)
+        initToolbar()
         view.save_btn?.setOnClickListener {
             val layoutManager = view.photos_rv.layoutManager as LinearLayoutManager
             val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
@@ -78,6 +79,9 @@ class SliderFragment : BaseFragment(), SliderContractInterface.View {
     }
 
     override fun initToolbar() {
-        toolbar_title.text = stringProvider.getToolbarNameAlbum()
+        toolbar_title.text = stringProvider.getToolbarNamePhotos()
+        toolbar.setNavigationOnClickListener {
+            activity?.onBackPressed()
+        }
     }
 }

@@ -67,6 +67,7 @@ class AlbumFragment : BaseFragment(), AlbumContractInterface.View {
     }
 
     override fun getAlbumId() = albumId
+
     override fun initToolbar() {
         view?.toolbar_title?.text = stringProvider.getToolbarNameAlbum()
         view?.toolbar?.setNavigationOnClickListener {
