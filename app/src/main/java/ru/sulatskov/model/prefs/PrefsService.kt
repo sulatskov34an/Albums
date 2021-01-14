@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.core.content.edit
 
 class PrefsService(context: Context) {
-    private val prefs = context.getSharedPreferences("carDB", Context.MODE_PRIVATE)
+    private val prefs = context.getSharedPreferences("album", Context.MODE_PRIVATE)
 
     companion object {
         const val HAS_DB_KEY = "hasDBKey"

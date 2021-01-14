@@ -11,7 +11,8 @@ import kotlinx.android.synthetic.main.item_photo.view.*
 import ru.sulatskov.R
 import ru.sulatskov.common.getProgressBar
 
-class SliderImageAdapter(private val context: Context) : RecyclerView.Adapter<SliderImageAdapter.ViewHolder>() {
+class SliderImageAdapter(private val context: Context) :
+    RecyclerView.Adapter<SliderImageAdapter.ViewHolder>() {
 
     private val images: MutableList<String?> = mutableListOf()
 

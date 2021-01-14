@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_general.view.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.sulatskov.common.*
+import ru.sulatskov.common.providers.StringProvider
 
 class GeneralFragment : BaseFragment(), GeneralContractInterface.View, TextWatcher {
 

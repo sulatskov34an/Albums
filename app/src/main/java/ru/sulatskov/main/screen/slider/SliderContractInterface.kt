@@ -15,7 +15,8 @@ interface SliderContractInterface {
     interface Presenter : BasePresenterInterface<View> {
         fun getUrl(position: Int): String?
     }
-    interface Repository: BaseRepositoryInterface{
+
+    interface Repository : BaseRepositoryInterface {
         suspend fun getPhotosByAlbumId(albumId: Int): MutableList<Photo>
     }
 }

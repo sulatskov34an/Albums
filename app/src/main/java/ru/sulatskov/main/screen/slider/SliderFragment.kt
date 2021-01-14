@@ -11,6 +11,7 @@ import org.koin.android.ext.android.inject
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseFragment
 import ru.sulatskov.common.*
+import ru.sulatskov.common.providers.StringProvider
 
 
 class SliderFragment : BaseFragment(), SliderContractInterface.View {

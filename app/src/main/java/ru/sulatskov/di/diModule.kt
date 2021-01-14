@@ -3,7 +3,7 @@ package ru.sulatskov.di
 import android.content.Context
 import org.koin.dsl.module
 import ru.sulatskov.common.ConnectionProvider
-import ru.sulatskov.common.StringProvider
+import ru.sulatskov.common.providers.StringProvider
 import ru.sulatskov.main.screen.general.GeneralContractInterface
 import ru.sulatskov.main.screen.general.GeneralPresenter
 import ru.sulatskov.main.screen.slider.SliderContractInterface

@@ -1,4 +1,4 @@
-package ru.sulatskov.common
+package ru.sulatskov.common.providers
 
 import android.content.Context
 import ru.sulatskov.R

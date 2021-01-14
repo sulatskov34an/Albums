@@ -19,7 +19,7 @@ class MainActivity : BaseActivity(), ProgressManager {
         get() = R.layout.activity_main
 
     override fun init(state: Bundle?) {
-        if (supportFragmentManager.backStackEntryCount == 0){
+        if (supportFragmentManager.backStackEntryCount == 0) {
             openGeneralScreen(AppConst.SORT_DEFAULT)
         }
     }

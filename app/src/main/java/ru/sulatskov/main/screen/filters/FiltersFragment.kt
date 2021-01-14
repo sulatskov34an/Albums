@@ -10,7 +10,7 @@ import org.koin.android.ext.android.inject
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseFragment
 import ru.sulatskov.common.AppConst
-import ru.sulatskov.common.StringProvider
+import ru.sulatskov.common.providers.StringProvider
 import ru.sulatskov.main.MainActivity
 
 class FiltersFragment : BaseFragment(), FiltersContractInterface.View {
@@ -54,5 +54,4 @@ class FiltersFragment : BaseFragment(), FiltersContractInterface.View {
             activity?.onBackPressed()
         }
     }
-
 }

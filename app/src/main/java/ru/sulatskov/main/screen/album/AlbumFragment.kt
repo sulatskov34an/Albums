@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_album.view.*
-import kotlinx.android.synthetic.main.fragment_slider.*
 import org.koin.android.ext.android.inject
 import ru.sulatskov.R
 import ru.sulatskov.base.view.BaseFragment
 import ru.sulatskov.common.AppConst
-import ru.sulatskov.common.StringProvider
+import ru.sulatskov.common.providers.StringProvider
 import ru.sulatskov.common.toast
 import ru.sulatskov.main.MainActivity
 import ru.sulatskov.model.network.Photo

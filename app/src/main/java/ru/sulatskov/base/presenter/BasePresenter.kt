@@ -11,7 +11,6 @@ open class BasePresenter<V: BaseViewInterface> : BasePresenterInterface<V>, Coro
     override val coroutineContext: CoroutineContext
         get() = Job() + Dispatchers.Main
 
-
     var view: V? = null
 
     override val isAttached: Boolean = view != null
