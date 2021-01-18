@@ -43,9 +43,13 @@ class FiltersFragment : BaseFragment(), FiltersContractInterface.View {
             }
         }
         view.show_btn?.setOnClickListener {
-            (activity as? MainActivity)?.openGeneralScreen(sortBy = sort)
+            filtersPresenter.onShowClick(sort)
         }
         filtersPresenter.attach(this)
+    }
+
+    override fun openGeneralScreen(sortBy: String?) {
+        (activity as? MainActivity)?.openGeneralScreen(sortBy = sort)
     }
 
     override fun initToolbar() {

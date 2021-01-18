@@ -6,8 +6,11 @@ import ru.sulatskov.base.view.BaseViewInterface
 
 interface FiltersContractInterface {
 
-    interface View : BaseViewInterface
+    interface View : BaseViewInterface {
+        fun openGeneralScreen(sortBy: String?)
+    }
 
-    interface Presenter : BasePresenterInterface<View>
-
+    interface Presenter : BasePresenterInterface<View> {
+        fun onShowClick(sortBy: String?)
+    }
 }
