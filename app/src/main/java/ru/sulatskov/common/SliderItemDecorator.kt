@@ -41,7 +41,7 @@ class SliderItemDecorator(val context: Context?) : RecyclerView.ItemDecoration()
         val itemCount = parent.adapter?.itemCount ?: 0
 
         val totalLength = mIndicatorItemLength * itemCount
-        val paddingBetweenItems = max(0, itemCount - 1) * mIndicatorItemPadding
+        val paddingBetweenItems = Math.max(0, itemCount - 1) * mIndicatorItemPadding
         val indicatorTotalWidth = totalLength + paddingBetweenItems
         val indicatorStartX = (parent.width - indicatorTotalWidth) / 2f
 
