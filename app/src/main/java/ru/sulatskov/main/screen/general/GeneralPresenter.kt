@@ -20,6 +20,8 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
     private val connection: ConnectionProvider by inject()
     private val generalRepository: GeneralRepository by inject()
 
+    private var albumsList = emptyList<Album>()
+
     override fun getData(sortBy: String) {
         var albums = mutableListOf<Album>()
         view?.showProgress()
@@ -29,6 +31,7 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
                     albums = generalRepository.getAlbumsRemote()
                     generalRepository.insertAlbums(albums)
                     prefsService.hasDB = true
+                    albumsList = albums
 
                 } else {
                     if (prefsService.hasDB) {
@@ -53,9 +56,9 @@ class GeneralPresenter : BasePresenter<GeneralContractInterface.View>(),
         }
     }
 
-    override fun onTextChanged(list: MutableList<Album>, s: CharSequence?) {
+    override fun onTextChanged(s: CharSequence?) {
         val sortedList = mutableListOf<Album>()
-        for (item in list)
+        for (item in albumsList)
             item.title?.let {
                 if (it.contains(s.toString()))
                     sortedList.add(item)

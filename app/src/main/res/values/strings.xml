@@ -20,4 +20,5 @@
     <string name="sort_text">Сортировать</string>
     <string name="filters">Фильтр</string>
     <string name="photos">Фото</string>
+    <string name="empty_search_text">Извините, ничего не найдено. Попробуйте изменить запрос.</string>
 </resources>

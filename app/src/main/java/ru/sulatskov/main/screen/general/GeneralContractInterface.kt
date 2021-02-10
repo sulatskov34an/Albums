@@ -15,7 +15,7 @@ interface GeneralContractInterface {
 
     interface Presenter : BasePresenterInterface<View> {
         fun getData(sortBy: String)
-        fun onTextChanged(list: MutableList<Album>, s: CharSequence?)
+        fun onTextChanged(s: CharSequence?)
         fun onAlbumClick(id: Int?)
     }
 

@@ -71,7 +71,14 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View, TextWatch
     }
 
     override fun setData(albums: List<Album>) {
-        albumsAdapter.setData(albums)
+        if (albums.isNotEmpty()){
+            albumsAdapter.setData(albums)
+            view?.albums_rv?.visible()
+            view?.placeholder_text?.gone()
+        }else{
+            view?.albums_rv?.gone()
+            view?.placeholder_text?.visible()
+        }
     }
 
     override fun openAlbum(id: Int?) {
@@ -92,11 +99,9 @@ class GeneralFragment : BaseFragment(), GeneralContractInterface.View, TextWatch
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         launch {
             delay(1000)
-            generalPresenter.onTextChanged(albumsAdapter.getList(), s)
+            generalPresenter.onTextChanged(s)
         }
-        if (s.isNullOrEmpty()) {
-            generalPresenter.getData(AppConst.SORT_DEFAULT)
-        }
+
     }
 
 
